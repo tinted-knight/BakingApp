@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+
+    <!--Param keys-->
+    <string name="recipeKey">recipe_id</string>
+    <string name="stepKey">step_id</string>
+
+    <!--Shared pref keys-->
+    <string name="first_start">first_start</string>
+</resources>
