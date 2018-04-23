@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override public void onPinRecipe(RecipeEntity recipe) {
         viewModel.pinRecipe(recipe);
-        Toast.makeText(this, recipe.name, Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(this, recipe.name, Toast.LENGTH_SHORT).show();
     }
 }

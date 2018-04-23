@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
+import com.and.tim.bakingapp.base.BaseListener;
+import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
+import com.and.tim.bakingapp.base.BaseViewHolder;
 import com.and.tim.bakingapp.model.Ingredient;
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
@@ -18,47 +21,31 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
+//public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
+public class RecipeListAdapter extends BaseRecyclerViewAdapter
+        <RecipeListAdapter.RecipeListViewHolder, RecipeListAdapter.RecipeListItemClick, RecipeEntity> {
 
-    private List<RecipeEntity> data;
-    private RecipeListItemClick listener;
-
-    public RecipeListAdapter(RecipeListItemClick listener) {
-        if (listener != null) this.listener = listener;
-    }
-
-    public void setData(List<RecipeEntity> newData) {
-        if (newData == null) return;
-        data = newData;
-        this.notifyDataSetChanged();
+    public RecipeListAdapter(RecipeListItemClick listener, int itemLayoutId) {
+        super(listener, itemLayoutId);
     }
 
     @NonNull @Override
     public RecipeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_recipe_list, parent, false);
+        View itemView = layoutInflater.inflate(itemLayoutId, parent, false);
 
         return new RecipeListViewHolder(itemView);
     }
 
-    @Override public void onBindViewHolder(@NonNull RecipeListViewHolder holder, int position) {
-        RecipeEntity recipe = data.get(position);
-        holder.bind(recipe);
-        holder.itemView.setTag(recipe.id);
-    }
 
-    @Override public int getItemCount() {
-        if (data == null) return 0;
-        return data.size();
-    }
-
-    public interface RecipeListItemClick {
-//        void onRecipeListItemClick(int recipeId);
+    public interface RecipeListItemClick extends BaseListener {
+        //        void onRecipeListItemClick(int recipeId);
         void onRecipeListItemClick(RecipeEntity recipe);
+
         void onPinRecipe(RecipeEntity recipe);
     }
 
-    class RecipeListViewHolder extends RecyclerView.ViewHolder {
+    class RecipeListViewHolder extends BaseViewHolder<RecipeEntity> {
 
         @BindView(R.id.tvName) TextView tvName;
         @BindView(R.id.btnPin) Button btnPin;
@@ -81,10 +68,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             });
         }
 
-        void bind(RecipeEntity recipe) {
+        @Override public void bind(RecipeEntity recipe) {
             tvName.setText(recipe.name);
         }
-
     }
 
 }

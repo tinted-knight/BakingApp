@@ -17,10 +17,10 @@ import butterknife.ButterKnife;
 import static com.and.tim.bakingapp.viewmodel.StepInstructionsViewModel.NO_STEP;
 
 public class StepListActivity extends AppCompatActivity
-        implements StepListAdapter.StepListItemClickListener {
+        implements StepListAdapter.StepListItemClickListener, IngredientsAdapter.IngredItemClickListener {
 
     private int recipeId;
-    private boolean landscapeMode = false;
+    private boolean modeTablet = false;
 
     //Bind
     @BindString(R.string.recipeKey) String recipeKey;
@@ -32,23 +32,33 @@ public class StepListActivity extends AppCompatActivity
         setContentView(R.layout.activity_steps);
         ButterKnife.bind(this);
 
-        if (findViewById(R.id.layoutLand) != null) landscapeMode = true;
+        if (findViewById(R.id.layoutSw600) != null) modeTablet = true;
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null) {
                 recipeId = intent.getIntExtra(recipeKey, 0);
-                StepListFragment stepListFragment = StepListFragment.newInstance(recipeId);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragStepList, stepListFragment, StepListFragment.class.getCanonicalName())
-                        .commit();
-
-                if (landscapeMode) populateStepInstructions(NO_STEP);
+                showStepList();
+                if (modeTablet) showStepInstructions(NO_STEP);
             }
         }
     }
 
-    private void populateStepInstructions(int stepId) {
+    private void showStepList() {
+        StepListFragment stepListFragment = StepListFragment.newInstance(recipeId);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragStepList, stepListFragment, StepListFragment.class.getCanonicalName())
+                .commit();
+    }
+
+    private void runStepInstructionsActivity(int stepId) {
+        Intent intent = new Intent(this, StepInstructionsActivity.class);
+        intent.putExtra(recipeKey, recipeId);
+        intent.putExtra(stepKey, stepId);
+        startActivity(intent);
+    }
+
+    private void showStepInstructions(int stepId) {
         StepInstructionsViewModel viewModel = ViewModelProviders.of(this).get(StepInstructionsViewModel.class);
         viewModel.init(recipeId, stepId);
         StepInstructionsFragment fragment = StepInstructionsFragment.newInstance(recipeId, stepId);
@@ -58,13 +68,14 @@ public class StepListActivity extends AppCompatActivity
     }
 
     @Override public void onStepListItemClick(int stepId) {
-        if (!landscapeMode) {
-            Intent intent = new Intent(this, StepInstructionsActivity.class);
-            intent.putExtra(recipeKey, recipeId);
-            intent.putExtra(stepKey, stepId);
-            startActivity(intent);
-        } else {
-            populateStepInstructions(stepId);
+        if (!modeTablet) {
+            runStepInstructionsActivity(stepId);
+        } else { // Mode tablet
+            showStepInstructions(stepId);
         }
+    }
+
+    @Override public void onIngredItemClick() {
+        Toast.makeText(this, "ingred click", Toast.LENGTH_SHORT).show();
     }
 }

@@ -47,6 +47,9 @@ public interface RecipeDao {
     @Insert
     void insertIngredient(IngredientEntity... ingredientEntities);
 
+    @Query("update recipes set pinned = 0 where pinned = 1")
+    void unpinAll();
+
     @Update()
     void pinRecipe(RecipeEntity entity);
 }

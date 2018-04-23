@@ -5,12 +5,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.ui.main.MainActivity;
 
 public class StepListWidgetProvider extends AppWidgetProvider {
 
@@ -23,17 +23,23 @@ public class StepListWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        StepListService.startActionUpdateWidget(context);
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 //        super.onUpdate(context, appWidgetManager, appWidgetIds);
         Log.d("TAGG", "onUpdate");
-//        StepListService.startActionUpdateWidget(context);
+        StepListService.startActionUpdateWidget(context);
 //        updateWidgets(context, appWidgetManager, appWidgetIds, "new string");
-        for (int appWidgetId : appWidgetIds) {
-            upd(context, appWidgetManager, appWidgetId);
-        }
+//        for (int appWidgetId : appWidgetIds) {
+//            upd(context, appWidgetManager, appWidgetId);
+//        }
     }
 
-    private void upd(Context context, AppWidgetManager appWidgetManager,int appWidgetId) {
+    private static void upd(Context context, AppWidgetManager appWidgetManager,int appWidgetId) {
         Log.d("TAGG", "upd");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_step_list);
         Intent intent = new Intent(context, ListWidgetService.class);
@@ -46,7 +52,7 @@ public class StepListWidgetProvider extends AppWidgetProvider {
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvSteps);
     }
 
-    private void setListClick(Context context, RemoteViews views) {
+    private static void setListClick(Context context, RemoteViews views) {
 //        Intent clickIntent = new Intent(context, MainActivity.class);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent intent = new Intent(context, StepListWidgetProvider.class);
@@ -58,7 +64,8 @@ public class StepListWidgetProvider extends AppWidgetProvider {
     public static void updateWidgets(Context context, AppWidgetManager appWidgetManager,
                                      int[] appWidgetIds, String name) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, name);
+//            updateAppWidget(context, appWidgetManager, appWidgetId, name);
+            upd(context, appWidgetManager, appWidgetId);
         }
     }
 

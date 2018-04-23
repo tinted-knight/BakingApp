@@ -63,7 +63,9 @@ public class RecipeListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         ButterKnife.bind(this, root);
 
-        adapter = new RecipeListAdapter((RecipeListAdapter.RecipeListItemClick) getActivity());
+        adapter = new RecipeListAdapter(
+                (RecipeListAdapter.RecipeListItemClick) getActivity(),
+                R.layout.item_recipe_list);
         recyclerViewSetup();
 
         return root;

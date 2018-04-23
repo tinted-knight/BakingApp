@@ -4,10 +4,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.and.tim.bakingapp.base.Marker;
 import com.and.tim.bakingapp.model.Ingredient;
 
 @Entity(tableName = "ingredients")
-public class IngredientEntity {
+public class IngredientEntity implements Marker{
 
     @PrimaryKey(autoGenerate = true)
     public int _id;

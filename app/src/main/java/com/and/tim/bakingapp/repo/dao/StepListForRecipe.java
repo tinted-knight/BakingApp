@@ -13,4 +13,6 @@ public class StepListForRecipe {
     @Relation(parentColumn = "_id", entityColumn = "recipeId")
     public List<StepEntity> steps;
 
+    @Relation(parentColumn = "_id" ,entityColumn = "recipeId")
+    public List<IngredientEntity> ingredients;
 }

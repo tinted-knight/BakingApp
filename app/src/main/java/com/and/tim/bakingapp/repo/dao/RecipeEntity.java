@@ -4,8 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
+import com.and.tim.bakingapp.base.Marker;
 import com.and.tim.bakingapp.model.Ingredient;
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.model.Step;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "recipes")
-public class RecipeEntity {
+public class RecipeEntity implements Marker{
 
     @PrimaryKey
     @ColumnInfo(name = "_id")

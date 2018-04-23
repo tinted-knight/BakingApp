@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.and.tim.bakingapp.model.Ingredient;
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.AppDatabase;
 import com.and.tim.bakingapp.repo.dao.IngredientEntity;
@@ -28,7 +29,7 @@ public class RecipeListRepo {
 
     private AppDatabase db;
     private RecipeDao dao;
-    private Context context;
+//    private Context context;
 
     private static RecipeListRepo instance = null;
 
@@ -105,6 +106,7 @@ public class RecipeListRepo {
     public void pinRecipe(RecipeEntity recipeEntity) {
 //        RecipeEntity recipeEntity = dao.getById(recipeId).getValue();
         recipeEntity.pinned = true;
+        dao.unpinAll();
         dao.pinRecipe(recipeEntity);
     }
 

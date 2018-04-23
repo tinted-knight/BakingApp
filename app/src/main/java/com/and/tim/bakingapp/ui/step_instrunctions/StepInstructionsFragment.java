@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 
 public class StepInstructionsFragment extends Fragment {
 
@@ -40,10 +42,12 @@ public class StepInstructionsFragment extends Fragment {
     private int recipeId;
     private int stepId;
     private StepInstructionsViewModel viewModel;
+    private boolean modeMobileLandscape = false;
 
     //Bind
-    @BindView(R.id.tvShortDescription) TextView tvShortDescription;
-    @BindView(R.id.exoPlayer) PlayerView playerView;
+    @Nullable @BindView(R.id.tvShortDescription) TextView tvShortDescription;
+    @BindView(R.id.exoPlayer)
+    PlayerView playerView;
     private SimpleExoPlayer player;
 
     public StepInstructionsFragment() {
@@ -66,7 +70,9 @@ public class StepInstructionsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_step_instructions, container, false);
         ButterKnife.bind(this, root);
 
-//        initExoPlayer();
+        if (root.findViewById(R.id.layoutMobileLandscape) != null) {
+            modeMobileLandscape = true;
+        }
 
         return root;
     }
@@ -116,21 +122,32 @@ public class StepInstructionsFragment extends Fragment {
         viewModel.stepData.observe(this, new Observer<StepEntity>() {
             @Override public void onChanged(@Nullable StepEntity step) {
                 if (step != null) {
+                    showStepText(step);
                     viewModel.setStepId(step._id);
-                    tvShortDescription.setText(step.shortDescription);
-
-                    if (!"".equals(step.videoURL.trim())){
-                        Uri uri = Uri.parse(step.videoURL);
-                        MediaSource mediaSource = new ExtractorMediaSource.Factory(
-                                new DefaultHttpDataSourceFactory("exoplayer-bakingapp")).createMediaSource(uri);
-                        player.prepare(mediaSource, true, false);
-                    } else {
-                        Toast.makeText(getActivity(), "no video :(", Toast.LENGTH_SHORT).show();
-                    }
+                    showStepVideo(step.videoURL);
                 } else {
                 }
             }
         });
+    }
+
+    private void showStepVideo(String videoURL) {
+        if (!"".equals(videoURL.trim())) {
+            Uri uri = Uri.parse(videoURL);
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(
+                    new DefaultHttpDataSourceFactory("exoplayer-bakingapp")).createMediaSource(uri);
+            player.prepare(mediaSource, true, false);
+        } else {
+            Toast.makeText(getActivity(), "no video :(", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showStepText(StepEntity step) {
+        if (modeMobileLandscape) {
+            // nothing for a while
+        } else { // Mode is mobile portrait
+            tvShortDescription.setText(step.shortDescription);
+        }
     }
 
     @Override public void onStart() {

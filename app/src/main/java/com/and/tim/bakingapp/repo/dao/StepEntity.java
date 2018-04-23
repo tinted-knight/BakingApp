@@ -4,10 +4,11 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.and.tim.bakingapp.base.Marker;
 import com.and.tim.bakingapp.model.Step;
 
 @Entity(tableName = "steps")
-public class StepEntity {
+public class StepEntity implements Marker{
 
     @PrimaryKey(autoGenerate = true)
     public int _id;
