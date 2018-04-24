@@ -8,13 +8,49 @@
 
     <TextView
         android:id="@+id/tvShortDescription"
+        style="@style/StepListCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginStart="32dp"
+        android:padding="2dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPosition"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Short description"/>
+
+    <TextView
+        android:id="@+id/tvPosition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        tools:text="Short description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="1"/>
+
+    <TextView
+        android:id="@+id/tvVideo"
+        style="@style/StepListDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:text="Video"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvPosition"
+        app:layout_constraintTop_toBottomOf="@+id/tvShortDescription"/>
+
+    <TextView
+        android:id="@+id/tvText"
+        style="@style/StepListDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvVideo"
+        app:layout_constraintTop_toBottomOf="@+id/tvShortDescription"/>
 </android.support.constraint.ConstraintLayout>

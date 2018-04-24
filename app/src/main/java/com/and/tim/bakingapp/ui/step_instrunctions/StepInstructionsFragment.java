@@ -45,7 +45,9 @@ public class StepInstructionsFragment extends Fragment {
     private boolean modeMobileLandscape = false;
 
     //Bind
-    @Nullable @BindView(R.id.tvShortDescription) TextView tvShortDescription;
+    @Nullable
+    @BindView(R.id.tvShortDescription)
+    TextView tvShortDescription;
     @BindView(R.id.exoPlayer)
     PlayerView playerView;
     private SimpleExoPlayer player;
@@ -125,7 +127,6 @@ public class StepInstructionsFragment extends Fragment {
                     showStepText(step);
                     viewModel.setStepId(step._id);
                     showStepVideo(step.videoURL);
-                } else {
                 }
             }
         });

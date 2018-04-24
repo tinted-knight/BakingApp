@@ -14,6 +14,9 @@ public interface RecipeDao {
     @Query("select * from recipes")
     LiveData<List<RecipeEntity>> getRecipeList();
 
+//    @Query("select count(steps._id) from steps where steps.recipeId = :recipeId")
+//    Integer getStepCount(int recipeId);
+
     @Query("select * from recipes where pinned = 1")
     RecipeEntity getPinnedRecipe();
 

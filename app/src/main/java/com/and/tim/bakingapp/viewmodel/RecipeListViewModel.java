@@ -31,4 +31,8 @@ public class RecipeListViewModel extends AndroidViewModel {
         StepListService.startActionUpdateWidget(getApplication());
     }
 
+//    public int getStepCount(int recipeId) {
+//        return repo.getStepCount(recipeId);
+//    }
+
 }

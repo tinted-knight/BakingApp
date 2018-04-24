@@ -43,12 +43,12 @@ public class StepListService extends IntentService {
     }
 
     private void handleActionUpdateWidget() {
-//        RecipeListRepo repo = RecipeListRepo.get(this.getApplication());
-//        RecipeEntity recipe = repo.getPinnedRecipe();
+        RecipeListRepo repo = RecipeListRepo.get(this.getApplication());
+        RecipeEntity recipe = repo.getPinnedRecipe();
         String name = "no data";
-//        if (recipe != null) {
-//            name = recipe.name;
-//        }
+        if (recipe != null) {
+            name = recipe.name;
+        }
         Log.d("TAGG", "handleActionUpdateWidget");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, StepListWidgetProvider.class));

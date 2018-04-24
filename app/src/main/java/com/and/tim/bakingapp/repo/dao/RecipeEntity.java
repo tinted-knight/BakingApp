@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "recipes")
-public class RecipeEntity implements Marker{
+public class RecipeEntity implements Marker {
 
     @PrimaryKey
     @ColumnInfo(name = "_id")
@@ -27,6 +27,10 @@ public class RecipeEntity implements Marker{
     public String image;
 
     public Boolean pinned;
+
+    public Integer stepCount;
+
+    public Integer ingredientsCount;
 
     @Ignore private List<StepEntity> steps;
 
@@ -42,6 +46,9 @@ public class RecipeEntity implements Marker{
         this.servings = servings;
         this.image = image;
         this.pinned = pinned;
+
+        this.stepCount = steps.size() - 1;
+        this.ingredientsCount = ingredients.size() - 1;
 
         this.steps = new ArrayList<>();
         for (Step s : steps) {

@@ -8,6 +8,7 @@ import android.widget.RemoteViewsService;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
+import com.and.tim.bakingapp.repo.dao.IngredientEntity;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
@@ -52,22 +53,24 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override public int getCount() {
 //        return 3;
         if (recipe == null) return 0;
-        return recipe.steps.size();
+        return recipe.ingredients.size();
     }
 
     @Override public RemoteViews getViewAt(int position) {
         Log.d("TAGG", "adapter: getViewAt");
-        if (recipe == null || recipe.steps.size() == 0) return null;
+        if (recipe == null || recipe.ingredients.size() == 0) return null;
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_step);
-        StepEntity step = recipe.steps.get(position);
-        String shortDescription = step.shortDescription;
+        IngredientEntity i = recipe.ingredients.get(position);
+        String ingredient = i.ingredient;
+        String quantity = i.quantity.toString() + " " + i.measure;
 
-        views.setTextViewText(R.id.tvStepShortDesc, shortDescription);
+        views.setTextViewText(R.id.tvIngredient, ingredient);
+        views.setTextViewText(R.id.tvQuantity, quantity);
 
         Intent clickIntent = new Intent();
         clickIntent.putExtra("pos", position);
-        views.setOnClickFillInIntent(R.id.tvStepShortDesc, clickIntent);
+        views.setOnClickFillInIntent(R.id.tvIngredient, clickIntent);
 
 //        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item_step);
 //        views.setTextViewText(R.id.tvStepShortDesc, data[position]);

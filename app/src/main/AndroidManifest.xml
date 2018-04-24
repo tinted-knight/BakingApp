@@ -29,7 +29,8 @@
 
         <service android:name=".ui.widget.StepListService"/>
 
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.main.MainActivity"
+                  android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -39,7 +40,8 @@
 
         <activity
             android:name=".ui.step_list.StepListActivity"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity

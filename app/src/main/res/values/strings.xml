@@ -7,4 +7,11 @@
 
     <!--Shared pref keys-->
     <string name="first_start">first_start</string>
+
+    <!--Float values-->
+    <string name="alphaStepDescInactive">0.1</string>
+
+    <!--Labels-->
+    <string name="label_ingredients">Ingredients</string>
+    <string name="label_stets">Steps</string>
 </resources>

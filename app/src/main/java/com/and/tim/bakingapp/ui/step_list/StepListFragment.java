@@ -2,6 +2,7 @@ package com.and.tim.bakingapp.ui.step_list;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,22 +69,6 @@ public class StepListFragment extends Fragment {
         setupStepList();
         setupIngredientList();
 
-        btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                if (cardStateExpanded) {
-//                    TransitionManager.beginDelayedTransition(cardViewIngredients);
-                    TransitionManager.beginDelayedTransition(layoutSteps);
-                    rvIngredList.setVisibility(View.GONE);
-                    cardStateExpanded = false;
-                } else { // is collapsed
-//                    TransitionManager.beginDelayedTransition(cardViewIngredients);
-                    TransitionManager.beginDelayedTransition(layoutSteps);
-                    rvIngredList.setVisibility(View.VISIBLE);
-                    cardStateExpanded = true;
-                }
-            }
-        });
-
         return root;
     }
 
@@ -98,6 +83,22 @@ public class StepListFragment extends Fragment {
                 (IngredientsAdapter.IngredItemClickListener) getActivity(),
                 R.layout.item_ingredient);
         rvIngredList.setAdapter(ingredAdapter);
+
+        btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if (cardStateExpanded) {
+                    TransitionManager.beginDelayedTransition(layoutSteps);
+                    rvIngredList.setVisibility(View.GONE);
+                    cardStateExpanded = false;
+                    btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
+                } else { // is collapsed
+                    TransitionManager.beginDelayedTransition(layoutSteps);
+                    rvIngredList.setVisibility(View.VISIBLE);
+                    cardStateExpanded = true;
+                    btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
+                }
+            }
+        });
     }
 
     private void setupStepList() {
@@ -105,10 +106,10 @@ public class StepListFragment extends Fragment {
                 getActivity(),
                 LinearLayoutManager.VERTICAL,
                 false));
-        rvStepList.addItemDecoration(new DividerItemDecoration(
-                getActivity(),
-                DividerItemDecoration.VERTICAL
-        ));
+//        rvStepList.addItemDecoration(new DividerItemDecoration(
+//                getActivity(),
+//                DividerItemDecoration.VERTICAL
+//        ));
 //        rvStepList.setVerticalScrollBarEnabled(true);
 
         stepAdapter = new StepListAdapter(

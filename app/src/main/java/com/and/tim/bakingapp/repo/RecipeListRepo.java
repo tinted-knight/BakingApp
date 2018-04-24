@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.and.tim.bakingapp.model.Ingredient;
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.AppDatabase;
 import com.and.tim.bakingapp.repo.dao.IngredientEntity;
@@ -83,6 +82,10 @@ public class RecipeListRepo {
         }
     }
 
+//    public Integer getStepCount(int recipeId) {
+//        return dao.getStepCount(recipeId);
+//    }
+
     public LiveData<StepListForRecipe> getStepList(int recipeId) {
         return dao.getStepListForRecipe(recipeId);
     }
@@ -127,10 +130,6 @@ public class RecipeListRepo {
             recipeDao.insertStep(re.getSteps().toArray(new StepEntity[]{}));
             recipeDao.insertIngredient(re.getIngredients().toArray(new IngredientEntity[]{}));
         }
-    }
-
-    public RecipeDao getRecipeDao() {
-        return db.recipeDao();
     }
 
 }

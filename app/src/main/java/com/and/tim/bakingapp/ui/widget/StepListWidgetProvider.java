@@ -39,7 +39,7 @@ public class StepListWidgetProvider extends AppWidgetProvider {
 //        }
     }
 
-    private static void upd(Context context, AppWidgetManager appWidgetManager,int appWidgetId) {
+    private static void upd(Context context, AppWidgetManager appWidgetManager,int appWidgetId, String name) {
         Log.d("TAGG", "upd");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_step_list);
         Intent intent = new Intent(context, ListWidgetService.class);
@@ -47,6 +47,7 @@ public class StepListWidgetProvider extends AppWidgetProvider {
         views.setEmptyView(R.id.lvSteps, R.id.layoutEmpty);
 
         setListClick(context, views);
+        views.setTextViewText(R.id.tvName, name);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvSteps);
@@ -65,7 +66,7 @@ public class StepListWidgetProvider extends AppWidgetProvider {
                                      int[] appWidgetIds, String name) {
         for (int appWidgetId : appWidgetIds) {
 //            updateAppWidget(context, appWidgetManager, appWidgetId, name);
-            upd(context, appWidgetManager, appWidgetId);
+            upd(context, appWidgetManager, appWidgetId, name);
         }
     }
 
