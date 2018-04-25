@@ -48,12 +48,9 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
         @BindView(R.id.tvShortDescription) TextView tvShortDescription;
         @BindView(R.id.tvVideo) TextView tvVideo;
-        @BindView(R.id.tvText) TextView tvText;
         @BindView(R.id.tvPosition) TextView tvPosition;
 
         @BindString(R.string.alphaStepDescInactive) String alphaStepDescInactive;
-
-        private static final float ALPHA_INACTIVE = 0.0f;
 
         StepListViewHolder(View itemView) {
             super(itemView);
@@ -67,13 +64,11 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
         }
 
         @Override public void bind(StepEntity step) {
-            tvShortDescription.setText(step.shortDescription);
+            tvShortDescription.setText(step.getShortDescription());
             tvPosition.setText(String.valueOf(step.stepId + 1));
             Float alphaValue = Float.parseFloat(alphaStepDescInactive);
-            if ("".equals(step.videoURL.trim()))
+            if ("".equals(step.getVideoURL().trim()))
                 tvVideo.setAlpha(alphaValue);
-            if ("".equals(step.description.trim()))
-                tvText.setAlpha(alphaValue);
         }
     }
 }

@@ -36,10 +36,10 @@ public interface RecipeDao {
     LiveData<StepEntity> getFirstStepForRecipe(int recipeId);
 
     @Query("select max(_id) from steps where steps.recipeId = :recipeId")
-    Integer getMaxStepId(int recipeId);
+    LiveData<Integer> getMaxStepId(int recipeId);
 
     @Query("select min(_id) from steps where steps.recipeId = :recipeId")
-    Integer getMinStepId(int recipeId);
+    LiveData<Integer> getMinStepId(int recipeId);
 
     @Insert
     void insertRecipe(RecipeEntity... recipeEntity);

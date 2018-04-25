@@ -49,8 +49,9 @@ public class StepInstructionsActivity extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     viewModel.stepForward();
-                    Fragment nextFragment = StepInstructionsFragment
-                            .newInstance(recipeId, stepId);
+                    Fragment nextFragment = new StepInstructionsFragment();
+//                    Fragment nextFragment = StepInstructionsFragment
+//                            .newInstance(recipeId, stepId);
                     naviReplaceFragment(nextFragment);
                 }
             });
@@ -58,8 +59,9 @@ public class StepInstructionsActivity extends AppCompatActivity {
             btnPrevious.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     viewModel.stepBack();
-                    Fragment prevFragment = StepInstructionsFragment
-                            .newInstance(recipeId, stepId);
+                    Fragment prevFragment = new StepInstructionsFragment();
+//                    Fragment prevFragment = StepInstructionsFragment
+//                            .newInstance(recipeId, stepId);
                     naviReplaceFragment(prevFragment);
                 }
             });
@@ -67,8 +69,9 @@ public class StepInstructionsActivity extends AppCompatActivity {
     }
 
     private StepInstructionsViewModel getViewModel(int recipeId, int stepId) {
-        StepInstructionsViewModel viewModel = ViewModelProviders.of(this).get(StepInstructionsViewModel.class);
-        viewModel.init(recipeId, stepId);
+        StepInstructionsViewModel.MyFactory factory =
+                new StepInstructionsViewModel.MyFactory(getApplication(),recipeId, stepId);
+        StepInstructionsViewModel viewModel = ViewModelProviders.of(this, factory).get(StepInstructionsViewModel.class);
         return viewModel;
     }
 
@@ -78,7 +81,7 @@ public class StepInstructionsActivity extends AppCompatActivity {
                 btnNext.setEnabled(hasNextStep);
             }
         });
-        viewModel.getHasPreviousStep().observe(this, new Observer<Boolean>() {
+        viewModel.getHasPrevStep().observe(this, new Observer<Boolean>() {
             @Override public void onChanged(@Nullable Boolean hasPrevStep) {
                 btnPrevious.setEnabled(hasPrevStep);
             }

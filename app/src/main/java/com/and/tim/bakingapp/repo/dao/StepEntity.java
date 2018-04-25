@@ -15,15 +15,15 @@ public class StepEntity implements Marker{
     @ColumnInfo(name = "id")
     public int stepId;
 
-    public String shortDescription;
+    private String shortDescription;
 
-    public String description;
+    private String description;
 
-    public String videoURL;
+    private String videoURL;
 
-    public String thumbnailURL;
+    private String thumbnailURL;
 
-    public Integer recipeId;
+    private Integer recipeId;
 
     public StepEntity() {
     }
@@ -37,19 +37,46 @@ public class StepEntity implements Marker{
         this.recipeId = recipeId;
     }
 
-//    public Integer getStepId() {
-//        return stepId;
-//    }
-//
-//    public void setStepId(Integer id) {
-//        this.stepId = id;
-//    }
-//
-//    public int get_id() {
-//        return _id;
-//    }
-//
-//    public void set_id(int _id) {
-//        this._id = _id;
-//    }
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getDescription() {
+        if (stepId == 0)
+            return description;
+        else
+            return description.substring(2).trim();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
+    public Integer getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Integer recipeId) {
+        this.recipeId = recipeId;
+    }
 }

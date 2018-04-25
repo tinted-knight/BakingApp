@@ -3,14 +3,17 @@ package com.and.tim.bakingapp.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 
-public class StepInstructionsViewModel extends AndroidViewModel {
+public class StepInstructionsViewModel extends AndroidViewModel{
 
     public static final int NO_STEP = -1;
     public LiveData<StepEntity> stepData;
@@ -18,14 +21,14 @@ public class StepInstructionsViewModel extends AndroidViewModel {
     private RecipeListRepo repo;
     private int recipeId;
     private int stepId;
-    private int maxStepId;
-    private int minStepId;
-    private MutableLiveData<Boolean> hasNextStep;
-    private MutableLiveData<Boolean> hasPreviousStep;
-//    private LiveData<RecipeEntity> recipeData;
+    private LiveData<Integer> maxStepId;
+    private LiveData<Integer> minStepId;
+    private MediatorLiveData<Boolean> hasNextStep;
+    private MediatorLiveData<Boolean> hasPrevStep;
 
-    public StepInstructionsViewModel(@NonNull Application application) {
+    public StepInstructionsViewModel(@NonNull Application application, int recipeId, int stepId) {
         super(application);
+        init(recipeId, stepId);
     }
 
     public void init(int recipeId, int stepId) {
@@ -33,77 +36,109 @@ public class StepInstructionsViewModel extends AndroidViewModel {
         this.recipeId = recipeId;
 
         repo = RecipeListRepo.get(getApplication());
-        if (stepId != NO_STEP)
-            stepData = repo.getStepById(recipeId, stepId);
-        else
-            stepData = repo.getFirstStepForRecipe(recipeId);
 
-//        RecipeEntity recipeData = repo.getRecipeById(recipeId).getValue();
         maxStepId = repo.getMaxStepId(recipeId);
         minStepId = repo.getMinStepId(recipeId);
 
+        if (stepId != NO_STEP) {
+            stepData = repo.getStepById(recipeId, stepId);
+        }
+        else {
+            stepData = repo.getFirstStepForRecipe(recipeId);
+        }
+
         initHasNextStep();
-        initHasPreviousStep();
+        initHasPrevStep();
     }
 
     public void stepForward() {
         stepId++;
-        fetchSteps();
         stepData = repo.getStepById(recipeId, stepId);
+        swapMediatorData();
     }
 
     public void stepBack() {
         stepId--;
-        fetchSteps();
         stepData = repo.getStepById(recipeId, stepId);
+        swapMediatorData();
+    }
+
+    private Observer<StepEntity> nextStepObserver = new Observer<StepEntity>() {
+        @Override public void onChanged(@Nullable StepEntity stepEntity) {
+            if (stepEntity == null) hasNextStep.setValue(false);
+            else {
+                if (maxStepId.getValue() == null) hasNextStep.setValue(false);
+                else hasNextStep.setValue(stepEntity._id < maxStepId.getValue());
+            }
+        }
+    };
+
+    private Observer<StepEntity> prevStepObserver = new Observer<StepEntity>() {
+        @Override public void onChanged(@Nullable StepEntity stepEntity) {
+            if (stepEntity == null) hasPrevStep.setValue(false);
+            else {
+                if (minStepId.getValue() == null) hasPrevStep.setValue(false);
+                else hasPrevStep.setValue(stepEntity._id > minStepId.getValue());
+            }
+        }
+    };
+
+    private void initHasNextStep() {
+        hasNextStep = new MediatorLiveData<>();
+        hasNextStep.addSource(stepData, nextStepObserver);
+        hasNextStep.addSource(maxStepId, new Observer<Integer>() {
+            @Override public void onChanged(@Nullable Integer value) {
+                if (value == null) hasNextStep.setValue(false);
+                else hasNextStep.setValue(stepId < value);
+            }
+        });
+    }
+
+    private void initHasPrevStep() {
+        hasPrevStep = new MediatorLiveData<>();
+        hasPrevStep.addSource(stepData, prevStepObserver);
+        hasPrevStep.addSource(minStepId, new Observer<Integer>() {
+            @Override public void onChanged(@Nullable Integer value) {
+                if (value == null) hasPrevStep.setValue(false);
+                else hasPrevStep.setValue(stepId > value);
+            }
+        });
+    }
+
+    private void swapMediatorData() {
+        hasNextStep.removeSource(stepData);
+        hasNextStep.addSource(stepData, nextStepObserver);
+        hasPrevStep.removeSource(stepData);
+        hasPrevStep.addSource(stepData, prevStepObserver);
     }
 
     public LiveData<Boolean> getHasNextStep() {
         return hasNextStep;
     }
 
-    public LiveData<Boolean> getHasPreviousStep() {
-        return hasPreviousStep;
+    public LiveData<Boolean> getHasPrevStep() {
+        return hasPrevStep;
     }
 
     public void setStepId(int id) {
         stepId = id;
     }
 
-    private void fetchSteps() {
-        // check for Next Step
-        fetchStep(canMoveForward(), hasNextStep);
-        // check for Previous Step
-        fetchStep(canMoveBack(), hasPreviousStep);
-    }
+    public static class MyFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private void fetchStep(boolean canMove, MutableLiveData<Boolean> value) {
-        boolean enabled = value.getValue();
-        if (canMove) {
-            if (!enabled) value.setValue(true);
-        } else { // !canMove
-            if (enabled) value.setValue(false);
+        private final Application application;
+        private final int stepId;
+        private final int recipeId;
+
+        public MyFactory(Application application,int recipeId, int stepId) {
+            this.application = application;
+            this.stepId = stepId;
+            this.recipeId = recipeId;
         }
-    }
 
-    private void initHasNextStep() {
-        hasNextStep = new MutableLiveData<>();
-        hasNextStep.setValue(false);
-        if (canMoveForward()) hasNextStep.setValue(true);
-    }
-
-    private void initHasPreviousStep() {
-        hasPreviousStep = new MutableLiveData<>();
-        hasPreviousStep.setValue(false);
-        if (canMoveBack()) hasPreviousStep.setValue(true);
-    }
-
-    private boolean canMoveForward() {
-        return stepId < maxStepId;
-    }
-
-    private boolean canMoveBack() {
-        return stepId - 1 >= minStepId;
+        @NonNull @Override public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new StepInstructionsViewModel(application, recipeId, stepId);
+        }
     }
 
 }

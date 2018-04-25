@@ -98,11 +98,11 @@ public class RecipeListRepo {
         return dao.getFirstStepForRecipe(recipeId);
     }
 
-    public int getMaxStepId(int recipeId) {
+    public LiveData<Integer> getMaxStepId(int recipeId) {
         return dao.getMaxStepId(recipeId);
     }
 
-    public int getMinStepId(int recipeId) {
+    public LiveData<Integer> getMinStepId(int recipeId) {
         return dao.getMinStepId(recipeId);
     }
 

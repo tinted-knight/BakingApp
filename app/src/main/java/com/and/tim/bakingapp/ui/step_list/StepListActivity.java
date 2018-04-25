@@ -41,7 +41,14 @@ public class StepListActivity extends AppCompatActivity
                 showStepList();
                 if (modeTablet) showStepInstructions(NO_STEP);
             }
+        } else {
+            recipeId = savedInstanceState.getInt(recipeKey);
         }
+    }
+
+    @Override protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(recipeKey, recipeId);
     }
 
     private void showStepList() {

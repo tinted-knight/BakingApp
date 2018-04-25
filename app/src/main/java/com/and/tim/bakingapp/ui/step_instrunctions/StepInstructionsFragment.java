@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,9 @@ public class StepInstructionsFragment extends Fragment {
     private boolean modeMobileLandscape = false;
 
     //Bind
-    @Nullable
-    @BindView(R.id.tvShortDescription)
-    TextView tvShortDescription;
-    @BindView(R.id.exoPlayer)
-    PlayerView playerView;
+    @Nullable @BindView(R.id.tvShortDescription) TextView tvShortDescription;
+    @Nullable @BindView(R.id.tvDescription) TextView tvDescription;
+    @BindView(R.id.exoPlayer) PlayerView playerView;
     private SimpleExoPlayer player;
 
     public StepInstructionsFragment() {
@@ -124,9 +123,10 @@ public class StepInstructionsFragment extends Fragment {
         viewModel.stepData.observe(this, new Observer<StepEntity>() {
             @Override public void onChanged(@Nullable StepEntity step) {
                 if (step != null) {
+                    Log.d("TAGG", "new stepData");
                     showStepText(step);
                     viewModel.setStepId(step._id);
-                    showStepVideo(step.videoURL);
+                    showStepVideo(step.getVideoURL());
                 }
             }
         });
@@ -145,22 +145,32 @@ public class StepInstructionsFragment extends Fragment {
 
     private void showStepText(StepEntity step) {
         if (modeMobileLandscape) {
-            // nothing for a while
-        } else { // Mode is mobile portrait
-            tvShortDescription.setText(step.shortDescription);
+            hideSystemUi();
+        } else {
+            tvShortDescription.setText(step.getShortDescription());
+            tvDescription.setText(step.getDescription());
         }
+    }
+
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     @Override public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23) {
+//        if (Util.SDK_INT > 23) {
             initExoPlayer();
-        }
+//        }
     }
 
     @Override public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 || player == null) {
+        if (Util.SDK_INT <= 23 && player == null) {
             initExoPlayer();
         }
     }
