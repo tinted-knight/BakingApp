@@ -16,8 +16,6 @@ import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
-import static com.and.tim.bakingapp.viewmodel.StepInstructionsViewModel.NO_STEP;
-
 public class StepListActivity extends AppCompatActivity
         implements StepListAdapter.StepListItemClickListener, IngredientsAdapter.IngredItemClickListener {
 
@@ -29,6 +27,7 @@ public class StepListActivity extends AppCompatActivity
     @BindString(R.string.stepKey) String stepKey;
     private StepInstructionsVM stepInstructionsVM;
     private StepListViewModel stepListViewModel;
+    private StepInstructionsFragment stepInstructionsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class StepListActivity extends AppCompatActivity
             if (intent != null) {
                 recipeId = intent.getIntExtra(recipeKey, 0);
                 showStepList();
-                if (modeTablet) showStepInstructions(NO_STEP);
+                if (modeTablet) showStepInstructionsHere(0);
             }
         } else {
             recipeId = savedInstanceState.getInt(recipeKey);
@@ -58,39 +57,31 @@ public class StepListActivity extends AppCompatActivity
     private void showStepList() {
         StepListViewModel.MyFactory factory = new StepListViewModel.MyFactory(getApplication(), recipeId);
         stepListViewModel = ViewModelProviders.of(this, factory).get(StepListViewModel.class);
-//        stepListViewModel.stepList.observe(this, new Observer<StepListForRecipe>() {
-//            @Override public void onChanged(@Nullable StepListForRecipe list) {
-//                getSupportActionBar().setTitle(list == null ? "..." : list.name);
-//            }
-//        });
         StepListFragment stepListFragment = StepListFragment.newInstance(recipeId);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragStepList, stepListFragment)
                 .commit();
     }
 
-    private void runStepInstructionsActivity(int stepId) {
-        Intent intent = new Intent(this, StepInstructionsActivity.class);
-        intent.putExtra(recipeKey, recipeId);
-        intent.putExtra(stepKey, stepId);
-        startActivity(intent);
-    }
-
-    private void showStepInstructions(int stepId) {
-//        StepInstructionsViewModel viewModel = ViewModelProviders.of(this).get(StepInstructionsViewModel.class);
-//        viewModel.init(recipeId, stepId);
-        StepInstructionsFragment fragment = StepInstructionsFragment.newInstance(recipeId, stepId);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragStepInstructions, fragment)
-                .commit();
-    }
-
-    @Override public void onStepListItemClick(int stepId) {
-        if (!modeTablet) {
-//            runStepInstructionsActivity(stepId);
-        } else { // Mode tablet
-            showStepInstructions(stepId);
+    private void showStepInstructionsHere(int stepId) {
+        setupInstructionsViewModel(stepId);
+        if (stepInstructionsFragment == null) {
+            stepInstructionsFragment = StepInstructionsFragment.newInstance(recipeId, stepId);
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fragStepInstructions, stepInstructionsFragment)
+                    .commit();
         }
+    }
+
+    private void showStepInstructionsSeparate(int data) {
+        setupInstructionsViewModel(data);
+        StepInstructionsFragment fragment = StepInstructionsFragment.newInstance(recipeId, data);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("TAGG")
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragStepList, fragment)
+                .commit();
     }
 
     void setupInstructionsViewModel(int stepId) {
@@ -101,13 +92,11 @@ public class StepListActivity extends AppCompatActivity
     }
 
     @Override public void onTest(int data) {
-        setupInstructionsViewModel(data);
-        StepInstructionsFragment fragment = StepInstructionsFragment.newInstance(recipeId, data);
-        getSupportFragmentManager().beginTransaction()
-                .addToBackStack("TAGG")
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.fragStepList, fragment)
-                .commit();
+        if (modeTablet)
+            showStepInstructionsHere(data);
+        else {
+            showStepInstructionsSeparate(data);
+        }
     }
 
     @Override public void onIngredItemClick() {

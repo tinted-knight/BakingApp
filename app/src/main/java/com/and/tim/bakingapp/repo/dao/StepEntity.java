@@ -77,7 +77,7 @@ public class StepEntity implements Marker, Parcelable{
         if (stepId == 0)
             return description;
         else
-            return description.substring(3).trim();
+            return description;
     }
 
     public void setDescription(String description) {
@@ -85,7 +85,11 @@ public class StepEntity implements Marker, Parcelable{
     }
 
     public String getVideoURL() {
-        return videoURL;
+        if (!"".equals(videoURL))
+            return videoURL;
+        else if (!"".equals(thumbnailURL))
+            return thumbnailURL;
+        return "";
     }
 
     public void setVideoURL(String videoURL) {

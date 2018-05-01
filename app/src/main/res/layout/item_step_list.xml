@@ -11,9 +11,12 @@
         style="@style/StepListCaption"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="32dp"
         android:padding="2dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvPosition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Short description"/>
 

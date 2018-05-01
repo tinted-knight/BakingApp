@@ -43,7 +43,6 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
     }
 
     public interface StepListItemClickListener extends BaseListener {
-        void onStepListItemClick(int stepId);
         void onTest(int data);
     }
 
@@ -61,7 +60,6 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    listener.onStepListItemClick((Integer) v.getTag());
 //                    listener.onTest(data.get(getAdapterPosition()));
                     listener.onTest((Integer) v.getTag());
                 }
