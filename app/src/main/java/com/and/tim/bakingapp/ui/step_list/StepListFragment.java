@@ -1,11 +1,14 @@
 package com.and.tim.bakingapp.ui.step_list;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,10 +63,11 @@ public class StepListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_step_list, container, false);
+//        View root = inflater.inflate(R.layout.card_step_list, container, false);
         ButterKnife.bind(this, root);
 
         setupStepList();
@@ -79,9 +83,10 @@ public class StepListFragment extends Fragment {
                 false));
         rvIngredList.setVerticalScrollBarEnabled(true);
 
-        ingredAdapter = new IngredientsAdapter(
-                (IngredientsAdapter.IngredItemClickListener) getActivity(),
-                R.layout.item_ingredient);
+        if (ingredAdapter == null)
+            ingredAdapter = new IngredientsAdapter(
+                    (IngredientsAdapter.IngredItemClickListener) getActivity(),
+                    R.layout.item_ingredient);
         rvIngredList.setAdapter(ingredAdapter);
 
         btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
@@ -111,17 +116,20 @@ public class StepListFragment extends Fragment {
 //                DividerItemDecoration.VERTICAL
 //        ));
 //        rvStepList.setVerticalScrollBarEnabled(true);
-
-        stepAdapter = new StepListAdapter(
-                (StepListAdapter.StepListItemClickListener) getActivity(),
-                R.layout.item_step_list);
+        if (stepAdapter == null)
+            stepAdapter = new StepListAdapter(
+                    (StepListAdapter.StepListItemClickListener) getActivity(),
+                    R.layout.item_step_list);
         rvStepList.setAdapter(stepAdapter);
+    }
+
+    @Override public void setRetainInstance(boolean retain) {
+        super.setRetainInstance(true);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         if (getArguments() != null) {
             recipeId = getArguments().getInt(ARG_PARAM2);
         }
@@ -129,17 +137,17 @@ public class StepListFragment extends Fragment {
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(StepListViewModel.class);
-        viewModel.init(recipeId);
+        viewModel = ViewModelProviders.of(getActivity()).get(StepListViewModel.class);
         registerObservers();
     }
 
     private void registerObservers() {
         viewModel.stepList.observe(this, new Observer<StepListForRecipe>() {
             @Override public void onChanged(@Nullable StepListForRecipe stepList) {
-                stepAdapter.setData(stepList.steps);
-                ingredAdapter.setData(stepList.ingredients);
-                tvName.setText(stepList.name);
+                stepAdapter.setData(stepList != null ? stepList.steps : null);
+                ingredAdapter.setData(stepList != null ? stepList.ingredients : null);
+                tvName.setText(stepList != null ? stepList.name : getString(R.string.common_error));
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(stepList.name);
             }
         });
     }

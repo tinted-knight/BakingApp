@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <receiver android:name=".ui.widget.StepListWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -26,29 +25,26 @@
         <service
             android:name=".ui.widget.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
         <service android:name=".ui.widget.StepListService"/>
 
-        <activity android:name=".ui.main.MainActivity"
-                  android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.step_list.StepListActivity"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme">
         </activity>
-
         <activity
             android:name=".ui.step_instrunctions.StepInstructionsActivity"
             android:parentActivityName=".ui.step_list.StepListActivity">
         </activity>
-
     </application>
 
 </manifest>

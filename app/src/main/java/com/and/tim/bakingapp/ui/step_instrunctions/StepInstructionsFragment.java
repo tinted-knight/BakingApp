@@ -4,19 +4,23 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.model.Step;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
+import com.and.tim.bakingapp.viewmodel.StepInstructionsVM;
 import com.and.tim.bakingapp.viewmodel.StepInstructionsViewModel;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -33,6 +37,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Optional;
 
 public class StepInstructionsFragment extends Fragment {
@@ -42,12 +47,16 @@ public class StepInstructionsFragment extends Fragment {
 
     private int recipeId;
     private int stepId;
-    private StepInstructionsViewModel viewModel;
+    private StepInstructionsVM viewModel;
     private boolean modeMobileLandscape = false;
 
     //Bind
-    @Nullable @BindView(R.id.tvShortDescription) TextView tvShortDescription;
-    @Nullable @BindView(R.id.tvDescription) TextView tvDescription;
+    @BindView(R.id.tvShortDescription) TextView tvShortDescription;
+    @BindView(R.id.tvDescription) TextView tvDescription;
+    @BindView(R.id.tvStepCount) TextView tvStepCount;
+    @BindView(R.id.btnNext) Button btnNext;
+    @BindView(R.id.btnPrev) Button btnPrevious;
+
     @BindView(R.id.exoPlayer) PlayerView playerView;
     private SimpleExoPlayer player;
 
@@ -65,7 +74,7 @@ public class StepInstructionsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_step_instructions, container, false);
@@ -106,30 +115,58 @@ public class StepInstructionsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            recipeId = getArguments().getInt(ARG_PARAM1);
-//            stepId = getArguments().getInt(ARG_PARAM2);
-//        }
+        if (getArguments() != null) {
+            recipeId = getArguments().getInt(ARG_PARAM1);
+            stepId = getArguments().getInt(ARG_PARAM2);
+        }
     }
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(StepInstructionsViewModel.class);
-//        viewModel.init(recipeId, stepId);
+        viewModel = ViewModelProviders.of(getActivity()).get(StepInstructionsVM.class);
+//        viewModel.setStep(stepId);
         registerObservers();
     }
 
     private void registerObservers() {
-        viewModel.stepData.observe(this, new Observer<StepEntity>() {
+        viewModel.getStepData().observe(this, new Observer<StepEntity>() {
             @Override public void onChanged(@Nullable StepEntity step) {
                 if (step != null) {
-                    Log.d("TAGG", "new stepData");
                     showStepText(step);
-                    viewModel.setStepId(step._id);
                     showStepVideo(step.getVideoURL());
                 }
             }
         });
+        viewModel.getHasNextStep().observe(this, new Observer<Boolean>() {
+            @Override public void onChanged(@Nullable Boolean value) {
+                btnNext.setEnabled(value != null && value);
+            }
+        });
+        viewModel.getHasPreviousStep().observe(this, new Observer<Boolean>() {
+            @Override public void onChanged(@Nullable Boolean value) {
+                btnPrevious.setEnabled(value != null && value);
+            }
+        });
+        viewModel.getStepCounter().observe(this, new Observer<Pair<Integer, Integer>>() {
+            @Override public void onChanged(@Nullable Pair<Integer, Integer> pair) {
+                String message = "...";
+                if (pair != null)
+                    message = "Step " + pair.first + " of " + pair.second;
+                tvStepCount.setText(message);
+            }
+        });
+    }
+
+    @OnClick({R.id.btnNext, R.id.btnPrev})
+    public void btnClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnNext:
+                viewModel.doNextStep();
+                break;
+            case R.id.btnPrev:
+                viewModel.doPreviousStep();
+                break;
+        }
     }
 
     private void showStepVideo(String videoURL) {

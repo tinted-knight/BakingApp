@@ -1,6 +1,7 @@
 package com.and.tim.bakingapp.ui.step_list;
 
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +38,13 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
     @Override public void onBindViewHolder(@NonNull StepListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.itemView.setTag(currentItem._id);
+//        holder.itemView.setTag(currentItem._id);
+        holder.itemView.setTag(position);
     }
 
     public interface StepListItemClickListener extends BaseListener {
         void onStepListItemClick(int stepId);
+        void onTest(int data);
     }
 
     class StepListViewHolder extends BaseViewHolder<StepEntity> {
@@ -59,6 +62,8 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onStepListItemClick((Integer) v.getTag());
+//                    listener.onTest(data.get(getAdapterPosition()));
+                    listener.onTest((Integer) v.getTag());
                 }
             });
         }

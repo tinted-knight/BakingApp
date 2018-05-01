@@ -9,9 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.viewmodel.StepInstructionsViewModel;
+import com.and.tim.bakingapp.viewmodel.StepInstructionsVM;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -24,8 +25,11 @@ public class StepInstructionsActivity extends AppCompatActivity {
     @BindString(R.string.stepKey) String stepKey;
     @BindView(R.id.btnNext) Button btnNext;
     @BindView(R.id.btnPrevious) Button btnPrevious;
+    @BindView(R.id.tvStepCount) TextView tvStepCount;
+    @BindView(R.id.tvStepId) TextView tvStepId;
 
-    private StepInstructionsViewModel viewModel;
+//    private StepInstructionsViewModel viewModel;
+    private StepInstructionsVM viewModel;
     private int recipeId;
     private int stepId;
 
@@ -48,7 +52,8 @@ public class StepInstructionsActivity extends AppCompatActivity {
 
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    viewModel.stepForward();
+//                    viewModel.stepForward();
+                    viewModel.doNextStep();
                     Fragment nextFragment = new StepInstructionsFragment();
 //                    Fragment nextFragment = StepInstructionsFragment
 //                            .newInstance(recipeId, stepId);
@@ -58,7 +63,8 @@ public class StepInstructionsActivity extends AppCompatActivity {
 
             btnPrevious.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    viewModel.stepBack();
+//                    viewModel.stepBack();
+                    viewModel.doPreviousStep();
                     Fragment prevFragment = new StepInstructionsFragment();
 //                    Fragment prevFragment = StepInstructionsFragment
 //                            .newInstance(recipeId, stepId);
@@ -68,22 +74,35 @@ public class StepInstructionsActivity extends AppCompatActivity {
         }
     }
 
-    private StepInstructionsViewModel getViewModel(int recipeId, int stepId) {
-        StepInstructionsViewModel.MyFactory factory =
-                new StepInstructionsViewModel.MyFactory(getApplication(),recipeId, stepId);
-        StepInstructionsViewModel viewModel = ViewModelProviders.of(this, factory).get(StepInstructionsViewModel.class);
-        return viewModel;
+//    private StepInstructionsViewModel getViewModel(int recipeId, int stepId) {
+    private StepInstructionsVM getViewModel(int recipeId, int stepId) {
+//        StepInstructionsViewModel.MyFactory factory =
+//                new StepInstructionsViewModel.MyFactory(getApplication(), recipeId, stepId);
+        StepInstructionsVM.MyFactory factory =
+                new StepInstructionsVM.MyFactory(getApplication(), recipeId, stepId);
+        return ViewModelProviders.of(this, factory).get(StepInstructionsVM.class);
     }
 
     private void registerObservers() {
         viewModel.getHasNextStep().observe(this, new Observer<Boolean>() {
-            @Override public void onChanged(@Nullable Boolean hasNextStep) {
-                btnNext.setEnabled(hasNextStep);
+            @Override public void onChanged(@Nullable Boolean value) {
+                btnNext.setEnabled(value);
             }
         });
-        viewModel.getHasPrevStep().observe(this, new Observer<Boolean>() {
-            @Override public void onChanged(@Nullable Boolean hasPrevStep) {
-                btnPrevious.setEnabled(hasPrevStep);
+        viewModel.getHasPreviousStep().observe(this, new Observer<Boolean>() {
+            @Override public void onChanged(@Nullable Boolean value) {
+                btnPrevious.setEnabled(value);
+            }
+        });
+        viewModel.getCurrentStep().observe(this, new Observer<Integer>() {
+            @Override public void onChanged(@Nullable Integer i) {
+                String text = "Step " + String.valueOf(i + 1) + " of ";
+                tvStepId.setText(text);
+            }
+        });
+        viewModel.getStepCount().observe(this, new Observer<Integer>() {
+            @Override public void onChanged(@Nullable Integer i) {
+                tvStepCount.setText(String.valueOf(i + 1));
             }
         });
     }

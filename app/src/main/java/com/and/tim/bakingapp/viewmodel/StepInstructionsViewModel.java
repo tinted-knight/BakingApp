@@ -9,22 +9,25 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 
-public class StepInstructionsViewModel extends AndroidViewModel{
+public class StepInstructionsViewModel extends AndroidViewModel {
 
     public static final int NO_STEP = -1;
-    public LiveData<StepEntity> stepData;
+    private LiveData<StepEntity> stepData;
 
     private RecipeListRepo repo;
     private int recipeId;
     private int stepId;
+    private int stepCount = -1;
     private LiveData<Integer> maxStepId;
     private LiveData<Integer> minStepId;
     private MediatorLiveData<Boolean> hasNextStep;
     private MediatorLiveData<Boolean> hasPrevStep;
+    private MediatorLiveData<Pair<Integer, Integer>> stepCountPair;
 
     public StepInstructionsViewModel(@NonNull Application application, int recipeId, int stepId) {
         super(application);
@@ -42,13 +45,32 @@ public class StepInstructionsViewModel extends AndroidViewModel{
 
         if (stepId != NO_STEP) {
             stepData = repo.getStepById(recipeId, stepId);
-        }
-        else {
+        } else {
             stepData = repo.getFirstStepForRecipe(recipeId);
         }
 
         initHasNextStep();
         initHasPrevStep();
+        initStepCounter();
+    }
+
+    private void initStepCounter() {
+        stepCountPair = new MediatorLiveData<>();
+        stepCountPair.addSource(maxStepId, new Observer<Integer>() {
+            @Override public void onChanged(@Nullable Integer value) {
+                if (value != null) {
+                    stepCountPair.setValue(new Pair<>(stepId, value));
+                    stepCount = value;
+                }
+            }
+        });
+        stepCountPair.addSource(stepData, new Observer<StepEntity>() {
+            @Override public void onChanged(@Nullable StepEntity stepEntity) {
+                if (stepEntity != null && stepCount != -1) {
+                    stepCountPair.setValue(new Pair<>(stepEntity.stepId, stepCount));
+                }
+            }
+        });
     }
 
     public void stepForward() {
@@ -120,6 +142,10 @@ public class StepInstructionsViewModel extends AndroidViewModel{
         return hasPrevStep;
     }
 
+    public LiveData<Pair<Integer, Integer>> getStepCountPair() {
+        return stepCountPair;
+    }
+
     public void setStepId(int id) {
         stepId = id;
     }
@@ -130,7 +156,7 @@ public class StepInstructionsViewModel extends AndroidViewModel{
         private final int stepId;
         private final int recipeId;
 
-        public MyFactory(Application application,int recipeId, int stepId) {
+        public MyFactory(Application application, int recipeId, int stepId) {
             this.application = application;
             this.stepId = stepId;
             this.recipeId = recipeId;
