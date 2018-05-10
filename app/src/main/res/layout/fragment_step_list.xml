@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/layoutSteps"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal|top"
-    tools:context=".ui.step_list.StepListFragment"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layoutSteps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|top"
+        android:orientation="vertical"
+        tools:context=".ui.step_list.StepListFragment">
 
         <include layout="@layout/card_ingredient_list"/>
+
         <include layout="@layout/card_step_list"/>
         <!--<include layout="@layout/cart_step_list2"/>-->
 
     </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

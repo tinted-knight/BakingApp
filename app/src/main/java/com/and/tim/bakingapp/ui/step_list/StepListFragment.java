@@ -1,23 +1,16 @@
 package com.and.tim.bakingapp.ui.step_list;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
 import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 
@@ -36,12 +28,12 @@ import butterknife.ButterKnife;
 
 public class StepListFragment extends Fragment {
 
-    private static final String ARG_PARAM2 = "recipe_id";
+    private static final String ARG_RECIPE_ID = "recipe_id";
 
-    // TODO: Rename and change types of parameters
-    private Recipe recipe;
     private int recipeId;
-    private boolean cardStateExpanded = false;
+    private boolean ingredListExpanded = false;
+    private int scrollX = 0;
+    private int scrollY = 0;
 
     private StepListAdapter stepAdapter;
     private IngredientsAdapter ingredAdapter;
@@ -54,6 +46,8 @@ public class StepListFragment extends Fragment {
     @BindView(R.id.rvIngredList) RecyclerView rvIngredList;
     @BindView(R.id.btnExpandCollapse) ImageButton btnExpandCollapse;
     @BindView(R.id.layoutSteps) LinearLayout layoutSteps;
+    @BindView(R.id.nestedScrollView) NestedScrollView scrollView;
+
 
     public StepListFragment() {
         // Required empty public constructor
@@ -62,7 +56,7 @@ public class StepListFragment extends Fragment {
     public static StepListFragment newInstance(int recipeId) {
         StepListFragment fragment = new StepListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM2, recipeId);
+        args.putInt(ARG_RECIPE_ID, recipeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,21 +87,46 @@ public class StepListFragment extends Fragment {
                     R.layout.item_ingredient);
         rvIngredList.setAdapter(ingredAdapter);
 
+        if (ingredListExpanded) expandIngedientList();
         btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if (cardStateExpanded) {
-                    TransitionManager.beginDelayedTransition(layoutSteps);
-                    rvIngredList.setVisibility(View.GONE);
-                    cardStateExpanded = false;
-                    btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
-                } else { // is collapsed
-                    TransitionManager.beginDelayedTransition(layoutSteps);
-                    rvIngredList.setVisibility(View.VISIBLE);
-                    cardStateExpanded = true;
-                    btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
-                }
+                if (ingredListExpanded) collapseIngedList();
+                else expandIngedientList();
             }
         });
+    }
+
+    private void expandIngedientList() {
+        TransitionManager.beginDelayedTransition(layoutSteps);
+        rvIngredList.setVisibility(View.VISIBLE);
+        ingredListExpanded = true;
+        btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
+    }
+
+    private void collapseIngedList() {
+        TransitionManager.beginDelayedTransition(layoutSteps);
+        rvIngredList.setVisibility(View.GONE);
+        ingredListExpanded = false;
+        btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
+    }
+
+    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("scroll_x", scrollView.getScrollX());
+        outState.putInt("scroll_y", scrollView.getScrollY());
+        outState.putBoolean("ingred_list_expanded", ingredListExpanded);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            recipeId = getArguments().getInt(ARG_RECIPE_ID);
+        }
+        if (savedInstanceState != null) {
+            scrollX = savedInstanceState.getInt("scroll_x");
+            scrollY = savedInstanceState.getInt("scroll_y");
+            ingredListExpanded = savedInstanceState.getBoolean("ingred_list_expanded");
+        }
     }
 
     private void setupStepList() {
@@ -127,18 +146,6 @@ public class StepListFragment extends Fragment {
         rvStepList.setAdapter(stepAdapter);
     }
 
-    @Override public void setRetainInstance(boolean retain) {
-        super.setRetainInstance(true);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            recipeId = getArguments().getInt(ARG_PARAM2);
-        }
-    }
-
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         StepListViewModel.MyFactory factory = new StepListViewModel.MyFactory(getActivity().getApplication(), recipeId);
@@ -152,6 +159,7 @@ public class StepListFragment extends Fragment {
                 if (stepList != null) {
                     stepAdapter.setData(stepList.steps);
                     ingredAdapter.setData(stepList.ingredients);
+                    scrollView.scrollTo(scrollX, scrollY);
                     String stepListCaption = String.valueOf(stepList.steps.size()) + " steps to make " + stepList.name;
                     tvName.setText(stepListCaption);
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(stepList.name);

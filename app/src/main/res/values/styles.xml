@@ -21,7 +21,7 @@
     </style>
 
     <style name="IngredientListItem" parent="Base.TextAppearance.AppCompat.Small">
-        <item name="android:textSize">12sp</item>
+        <!--<item name="android:textSize">12sp</item>-->
     </style>
 
     <style name="CardActionImageButton" parent="@style/Base.Widget.AppCompat.ActionButton">
