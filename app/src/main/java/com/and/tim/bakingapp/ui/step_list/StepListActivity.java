@@ -22,11 +22,14 @@ public class StepListActivity extends AppCompatActivity
     private int recipeId;
     private boolean modeTablet = false;
 
+    public static final String ACTION_STEP_LIST = "show_step_list";
+    public static final String ACTION_STEP_INSTRUCTIONS = "show_step_instructions";
+
     //Bind
     @BindString(R.string.recipeKey) String recipeKey;
     @BindString(R.string.stepKey) String stepKey;
+
     private StepInstructionsVM stepInstructionsVM;
-    private StepListViewModel stepListViewModel;
     private StepInstructionsFragment stepInstructionsFragment;
 
     @Override
@@ -40,9 +43,27 @@ public class StepListActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null) {
-                recipeId = intent.getIntExtra(recipeKey, 0);
-                showStepList();
-                if (modeTablet) showStepInstructionsHere(0);
+                switch (intent.getAction()) {
+                    case ACTION_STEP_LIST: {
+                        recipeId = intent.getIntExtra(recipeKey, 0);
+                        showStepList();
+                        if (modeTablet) showStepInstructionsHere(0);
+                        break;
+                    }
+                    case ACTION_STEP_INSTRUCTIONS: {
+                        recipeId = intent.getIntExtra(recipeKey, 0);
+                        int stepId = intent.getIntExtra(stepKey, 0);
+                        showStepList();
+                        if (modeTablet)
+                            showStepInstructionsHere(stepId);
+                        else
+                            showStepInstructionsSeparate(stepId);
+                        Toast.makeText(this, "yahooooooooo", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    default:
+                        throw new UnsupportedOperationException("Unsupported intent action");
+                }
             }
         } else {
             recipeId = savedInstanceState.getInt(recipeKey);
@@ -55,8 +76,8 @@ public class StepListActivity extends AppCompatActivity
     }
 
     private void showStepList() {
-        StepListViewModel.MyFactory factory = new StepListViewModel.MyFactory(getApplication(), recipeId);
-        stepListViewModel = ViewModelProviders.of(this, factory).get(StepListViewModel.class);
+//        StepListViewModel.MyFactory factory = new StepListViewModel.MyFactory(getApplication(), recipeId);
+//        StepListViewModel stepListViewModel = ViewModelProviders.of(this, factory).get(StepListViewModel.class);
         StepListFragment stepListFragment = StepListFragment.newInstance(recipeId);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragStepList, stepListFragment)

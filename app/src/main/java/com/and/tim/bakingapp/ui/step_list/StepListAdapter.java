@@ -1,7 +1,5 @@
 package com.and.tim.bakingapp.ui.step_list;
 
-import android.graphics.Color;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
 import com.and.tim.bakingapp.base.BaseViewHolder;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 
-import butterknife.BindColor;
-import butterknife.BindDimen;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +45,7 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
     class StepListViewHolder extends BaseViewHolder<StepEntity> {
 
         @BindView(R.id.tvShortDescription) TextView tvShortDescription;
-        @BindView(R.id.tvVideo) TextView tvVideo;
+//        @BindView(R.id.tvVideo) TextView tvVideo;
         @BindView(R.id.tvPosition) TextView tvPosition;
 
         @BindString(R.string.alphaStepDescInactive) String alphaStepDescInactive;
@@ -60,7 +56,6 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    listener.onTest(data.get(getAdapterPosition()));
                     listener.onTest((Integer) v.getTag());
                 }
             });
@@ -68,10 +63,7 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
         @Override public void bind(StepEntity step) {
             tvShortDescription.setText(step.getShortDescription());
-            tvPosition.setText(String.valueOf(step.stepId + 1));
-            Float alphaValue = Float.parseFloat(alphaStepDescInactive);
-            if ("".equals(step.getVideoURL().trim()))
-                tvVideo.setAlpha(alphaValue);
+            tvPosition.setText(String.valueOf(getAdapterPosition() + 1));
         }
     }
 }

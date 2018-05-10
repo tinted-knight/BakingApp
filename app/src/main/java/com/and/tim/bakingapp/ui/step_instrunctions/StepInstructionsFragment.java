@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,7 +118,7 @@ public class StepInstructionsFragment extends Fragment {
                 new DefaultTrackSelector(),
                 new DefaultLoadControl());
         playerView.setPlayer(player);
-        playerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video));
+//        playerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video));
         player.seekTo(currentWindow, playbackPosition);
         player.setPlayWhenReady(playWhenReady);
     }
@@ -135,48 +136,60 @@ public class StepInstructionsFragment extends Fragment {
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(StepInstructionsVM.class);
-//        viewModel.setStep(stepId);
-        if (tvShortDescription != null)
-            registerObservers();
-        else
-            registerLandscapeObservers();
+        registerObservers();
     }
 
-    private void registerLandscapeObservers() {
-        viewModel.getStepData().observe(this, new Observer<StepEntity>() {
-            @Override public void onChanged(@Nullable StepEntity step) {
-                if (step != null) {
-                    showStepVideo(step.getVideoURL());
-                }
+    private Observer<StepEntity> mobileLandscapeObserver = new Observer<StepEntity>() {
+        @Override public void onChanged(@Nullable StepEntity step) {
+            if (step != null) {
+                showStepVideo(step.getVideoURL());
             }
-        });
-    }
+        }
+    };
 
-    private void registerObservers() {
-        viewModel.getStepData().observe(this, new Observer<StepEntity>() {
-            @Override public void onChanged(@Nullable StepEntity step) {
-                if (step != null) {
-                    showStepText(step);
-                    showStepVideo(step.getVideoURL());
-                }
+    private Observer<StepEntity> commonObserver = new Observer<StepEntity>() {
+        @Override public void onChanged(@Nullable StepEntity step) {
+            if (step != null) {
+                showStepText(step);
+                showStepVideo(step.getVideoURL());
             }
-        });
+        }
+    };
+
+    private void stepNavigationObserve() {
         viewModel.getHasNextStep().observe(this, new Observer<Boolean>() {
             @Override public void onChanged(@Nullable Boolean value) {
                 btnNext.setEnabled(value != null && value);
             }
         });
+
         viewModel.getHasPreviousStep().observe(this, new Observer<Boolean>() {
             @Override public void onChanged(@Nullable Boolean value) {
                 btnPrevious.setEnabled(value != null && value);
             }
         });
+
         viewModel.getStepCounter().observe(this, new Observer<Pair<Integer, Integer>>() {
             @Override public void onChanged(@Nullable Pair<Integer, Integer> pair) {
                 String message = "...";
                 if (pair != null)
                     message = "Step " + pair.first + " of " + pair.second;
                 tvStepCount.setText(message);
+            }
+        });
+    }
+
+    private void registerObservers() {
+        Observer<StepEntity> stepDataObserver = commonObserver;
+        if (modeMobileLandscape) stepDataObserver = mobileLandscapeObserver;
+
+        viewModel.getStepData().observe(this, stepDataObserver);
+
+        stepNavigationObserve();
+
+        viewModel.getRecipeName().observe(this, new Observer<String>() {
+            @Override public void onChanged(@Nullable String value) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(value);
             }
         });
     }

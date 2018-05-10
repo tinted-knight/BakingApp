@@ -29,6 +29,9 @@ public interface RecipeDao {
     @Query("select _id, name from recipes where _id = :recipeId")
     StepListForRecipe getStepListForWidget(int recipeId);
 
+    @Query("select _id, name from recipes where _id = :recipeId")
+    IngredientsForRecipe getIngredientsForWidget(int recipeId);
+
     @Query("select * from steps where steps._id = :stepId")
     LiveData<StepEntity> getStepById(int stepId);
 

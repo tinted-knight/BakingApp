@@ -22,10 +22,12 @@
 
         <TextView
             android:id="@+id/tvName"
+            style="@style/StepListCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Hello"/>
+            android:layout_margin="0dp"
+            android:padding="8dp"
+            android:text="Caption"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvStepList"

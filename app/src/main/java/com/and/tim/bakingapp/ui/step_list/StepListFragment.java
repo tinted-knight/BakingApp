@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,10 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +72,6 @@ public class StepListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_step_list, container, false);
-//        View root = inflater.inflate(R.layout.card_step_list, container, false);
         ButterKnife.bind(this, root);
 
         setupStepList();
@@ -111,11 +115,11 @@ public class StepListFragment extends Fragment {
                 getActivity(),
                 LinearLayoutManager.VERTICAL,
                 false));
-//        rvStepList.addItemDecoration(new DividerItemDecoration(
-//                getActivity(),
-//                DividerItemDecoration.VERTICAL
-//        ));
-//        rvStepList.setVerticalScrollBarEnabled(true);
+        rvStepList.addItemDecoration(new DividerItemDecoration(
+                getActivity(),
+                DividerItemDecoration.VERTICAL
+        ));
+        rvStepList.setVerticalScrollBarEnabled(true);
         if (stepAdapter == null)
             stepAdapter = new StepListAdapter(
                     (StepListAdapter.StepListItemClickListener) getActivity(),
@@ -137,18 +141,23 @@ public class StepListFragment extends Fragment {
 
     @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(StepListViewModel.class);
+        StepListViewModel.MyFactory factory = new StepListViewModel.MyFactory(getActivity().getApplication(), recipeId);
+        viewModel = ViewModelProviders.of(this, factory).get(StepListViewModel.class);
         registerObservers();
     }
 
     private void registerObservers() {
         viewModel.stepList.observe(this, new Observer<StepListForRecipe>() {
             @Override public void onChanged(@Nullable StepListForRecipe stepList) {
-                stepAdapter.setData(stepList != null ? stepList.steps : null);
-                ingredAdapter.setData(stepList != null ? stepList.ingredients : null);
-                tvName.setText(stepList != null ? stepList.name : getString(R.string.common_error));
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(stepList.name);
+                if (stepList != null) {
+                    stepAdapter.setData(stepList.steps);
+                    ingredAdapter.setData(stepList.ingredients);
+                    String stepListCaption = String.valueOf(stepList.steps.size()) + " steps to make " + stepList.name;
+                    tvName.setText(stepListCaption);
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(stepList.name);
+                }
             }
         });
     }
+
 }

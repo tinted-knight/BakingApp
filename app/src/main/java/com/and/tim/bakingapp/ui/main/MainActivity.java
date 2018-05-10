@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     @Override public void onRecipeListItemClick(RecipeEntity recipe) {
 //        viewModel.pinRecipe(recipe);
         Intent intent = new Intent(this, StepListActivity.class);
+        intent.setAction(StepListActivity.ACTION_STEP_LIST);
         intent.putExtra(recipeKey, recipe.id);
         startActivity(intent);
     }

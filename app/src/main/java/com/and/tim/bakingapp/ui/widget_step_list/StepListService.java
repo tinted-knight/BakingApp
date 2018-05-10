@@ -1,26 +1,21 @@
-package com.and.tim.bakingapp.ui.widget;
+package com.and.tim.bakingapp.ui.widget_step_list;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.RecipeDao;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-
-import java.util.List;
+import com.and.tim.bakingapp.ui.widget.IngredientsListService;
+import com.and.tim.bakingapp.ui.widget.IngredientsWidgetProvider;
 
 public class StepListService extends IntentService {
 
-    public static final String ACTION_UPDATE_WIDGET = "com.and.tim.bakingapp.update_widget";
+    public static final String ACTION_UPDATE_WIDGET = "com.and.tim.bakingapp.update_steps_widget";
 
     public StepListService() {
         super("StepListService");
@@ -49,13 +44,12 @@ public class StepListService extends IntentService {
         if (recipe != null) {
             name = recipe.name;
         }
-        Log.d("TAGG", "handleActionUpdateWidget");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, StepListWidgetProvider.class));
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, StepsWidgetProvider.class));
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lvSteps);
 
-        StepListWidgetProvider.updateWidgets(this, appWidgetManager, appWidgetIds, name);
+        StepsWidgetProvider.updateWidgets(this, appWidgetManager, appWidgetIds, name);
     }
 
 }

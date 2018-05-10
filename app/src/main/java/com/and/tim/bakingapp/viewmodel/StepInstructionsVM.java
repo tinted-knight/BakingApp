@@ -25,6 +25,7 @@ public class StepInstructionsVM extends AndroidViewModel {
     private MediatorLiveData<Boolean> hasNextStep;
     private MediatorLiveData<Boolean> hasPreviousStep;
     private MediatorLiveData<Pair<Integer, Integer>> stepCounter;
+    private MutableLiveData<String> recipeName;
 
     private RecipeListRepo repo;
     private int recipeId;
@@ -39,6 +40,7 @@ public class StepInstructionsVM extends AndroidViewModel {
         this.sCount = -1;
         repo = RecipeListRepo.get(application);
 
+        recipeName = new MutableLiveData<>();
         stepList = repo.getStepList(recipeId);
         currentStep = new MutableLiveData<>();
         currentStep.setValue(stepId);
@@ -109,6 +111,7 @@ public class StepInstructionsVM extends AndroidViewModel {
                     stepData.setValue(list.steps.get(stepId));
                     sCount = list.steps.size() - 1;
                     stepCount.setValue(sCount);
+                    recipeName.setValue(list.name);
                 }
                 stepData.removeSource(stepList);
             }
@@ -143,6 +146,10 @@ public class StepInstructionsVM extends AndroidViewModel {
 
     public LiveData<Integer> getStepCount() {
         return stepCount;
+    }
+
+    public LiveData<String> getRecipeName() {
+        return recipeName;
     }
 
     public void doNextStep() {

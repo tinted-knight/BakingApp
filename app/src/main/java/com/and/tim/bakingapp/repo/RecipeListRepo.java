@@ -10,6 +10,7 @@ import android.util.Log;
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.AppDatabase;
 import com.and.tim.bakingapp.repo.dao.IngredientEntity;
+import com.and.tim.bakingapp.repo.dao.IngredientsForRecipe;
 import com.and.tim.bakingapp.repo.dao.RecipeDao;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
@@ -107,7 +108,6 @@ public class RecipeListRepo {
     }
 
     public void pinRecipe(RecipeEntity recipeEntity) {
-//        RecipeEntity recipeEntity = dao.getById(recipeId).getValue();
         recipeEntity.pinned = true;
         dao.unpinAll();
         dao.pinRecipe(recipeEntity);
@@ -119,6 +119,10 @@ public class RecipeListRepo {
 
     public StepListForRecipe getStepListForWidget(int recipeId) {
         return dao.getStepListForWidget(recipeId);
+    }
+
+    public IngredientsForRecipe getIngredientsForWidget(int recipeId) {
+        return dao.getIngredientsForWidget(recipeId);
     }
 
     private void fillLocalDatabase() {

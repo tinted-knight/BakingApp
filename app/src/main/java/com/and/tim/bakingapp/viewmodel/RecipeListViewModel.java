@@ -7,7 +7,8 @@ import android.support.annotation.NonNull;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-import com.and.tim.bakingapp.ui.widget.StepListService;
+import com.and.tim.bakingapp.ui.widget.IngredientsListService;
+import com.and.tim.bakingapp.ui.widget_step_list.StepListService;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class RecipeListViewModel extends AndroidViewModel {
 
     public void pinRecipe(RecipeEntity recipe) {
         repo.pinRecipe(recipe);
+        IngredientsListService.startActionUpdateWidget(getApplication());
         StepListService.startActionUpdateWidget(getApplication());
     }
 
