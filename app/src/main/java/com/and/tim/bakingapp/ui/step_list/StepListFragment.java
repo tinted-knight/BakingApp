@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
@@ -47,6 +48,7 @@ public class StepListFragment extends Fragment {
     @BindView(R.id.btnExpandCollapse) ImageButton btnExpandCollapse;
     @BindView(R.id.layoutSteps) LinearLayout layoutSteps;
     @BindView(R.id.nestedScrollView) NestedScrollView scrollView;
+//    @BindView(R.id.nestedScrollView) ScrollView scrollView;
 
 
     public StepListFragment() {
@@ -74,12 +76,31 @@ public class StepListFragment extends Fragment {
         return root;
     }
 
+    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("scroll_x", scrollView.getScrollX());
+        outState.putInt("scroll_y", scrollView.getScrollY());
+        outState.putBoolean("ingred_list_expanded", ingredListExpanded);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            recipeId = getArguments().getInt(ARG_RECIPE_ID);
+        }
+        if (savedInstanceState != null) {
+            scrollX = savedInstanceState.getInt("scroll_x");
+            scrollY = savedInstanceState.getInt("scroll_y");
+            ingredListExpanded = savedInstanceState.getBoolean("ingred_list_expanded");
+        }
+    }
+
     private void setupIngredientList() {
         rvIngredList.setLayoutManager(new LinearLayoutManager(
                 getActivity(),
                 LinearLayoutManager.VERTICAL,
                 false));
-        rvIngredList.setVerticalScrollBarEnabled(true);
+        rvIngredList.setNestedScrollingEnabled(false);
 
         if (ingredAdapter == null)
             ingredAdapter = new IngredientsAdapter(
@@ -88,6 +109,8 @@ public class StepListFragment extends Fragment {
         rvIngredList.setAdapter(ingredAdapter);
 
         if (ingredListExpanded) expandIngedientList();
+        else collapseIngedList();
+
         btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 if (ingredListExpanded) collapseIngedList();
@@ -110,25 +133,6 @@ public class StepListFragment extends Fragment {
         btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
     }
 
-    @Override public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt("scroll_x", scrollView.getScrollX());
-        outState.putInt("scroll_y", scrollView.getScrollY());
-        outState.putBoolean("ingred_list_expanded", ingredListExpanded);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            recipeId = getArguments().getInt(ARG_RECIPE_ID);
-        }
-        if (savedInstanceState != null) {
-            scrollX = savedInstanceState.getInt("scroll_x");
-            scrollY = savedInstanceState.getInt("scroll_y");
-            ingredListExpanded = savedInstanceState.getBoolean("ingred_list_expanded");
-        }
-    }
-
     private void setupStepList() {
         rvStepList.setLayoutManager(new LinearLayoutManager(
                 getActivity(),
@@ -138,7 +142,8 @@ public class StepListFragment extends Fragment {
                 getActivity(),
                 DividerItemDecoration.VERTICAL
         ));
-        rvStepList.setVerticalScrollBarEnabled(true);
+//        rvStepList.setVerticalScrollBarEnabled(true);
+        rvStepList.setNestedScrollingEnabled(false);
         if (stepAdapter == null)
             stepAdapter = new StepListAdapter(
                     (StepListAdapter.StepListItemClickListener) getActivity(),
