@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
@@ -26,15 +25,17 @@ import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 
 public class StepListFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "recipe_id";
 
     private int recipeId;
-    private boolean ingredListExpanded = false;
-    private int scrollX = 0;
-    private int scrollY = 0;
+    @State boolean ingredListExpanded = false;
+    @State int scrollX = 0;
+    @State int scrollY = 0;
 
     private StepListAdapter stepAdapter;
     private IngredientsAdapter ingredAdapter;
@@ -48,7 +49,6 @@ public class StepListFragment extends Fragment {
     @BindView(R.id.btnExpandCollapse) ImageButton btnExpandCollapse;
     @BindView(R.id.layoutSteps) LinearLayout layoutSteps;
     @BindView(R.id.nestedScrollView) NestedScrollView scrollView;
-//    @BindView(R.id.nestedScrollView) ScrollView scrollView;
 
 
     public StepListFragment() {
@@ -77,9 +77,7 @@ public class StepListFragment extends Fragment {
     }
 
     @Override public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt("scroll_x", scrollView.getScrollX());
-        outState.putInt("scroll_y", scrollView.getScrollY());
-        outState.putBoolean("ingred_list_expanded", ingredListExpanded);
+        Icepick.saveInstanceState(this, outState);
     }
 
     @Override
@@ -89,9 +87,7 @@ public class StepListFragment extends Fragment {
             recipeId = getArguments().getInt(ARG_RECIPE_ID);
         }
         if (savedInstanceState != null) {
-            scrollX = savedInstanceState.getInt("scroll_x");
-            scrollY = savedInstanceState.getInt("scroll_y");
-            ingredListExpanded = savedInstanceState.getBoolean("ingred_list_expanded");
+            Icepick.restoreInstanceState(this, savedInstanceState);
         }
     }
 
@@ -142,7 +138,6 @@ public class StepListFragment extends Fragment {
                 getActivity(),
                 DividerItemDecoration.VERTICAL
         ));
-//        rvStepList.setVerticalScrollBarEnabled(true);
         rvStepList.setNestedScrollingEnabled(false);
         if (stepAdapter == null)
             stepAdapter = new StepListAdapter(

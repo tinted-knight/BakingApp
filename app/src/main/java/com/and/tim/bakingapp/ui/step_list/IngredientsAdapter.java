@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.base.BaseListener;
 import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
 import com.and.tim.bakingapp.base.BaseViewHolder;
 import com.and.tim.bakingapp.repo.dao.IngredientEntity;
@@ -30,7 +29,7 @@ public class IngredientsAdapter extends BaseRecyclerViewAdapter<
         return new IngredientsViewHolder(itemView);
     }
 
-    public interface IngredItemClickListener extends BaseListener {
+    public interface IngredItemClickListener {
         void onIngredItemClick();
     }
 

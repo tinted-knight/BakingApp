@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.base.BaseListener;
 import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
 import com.and.tim.bakingapp.base.BaseViewHolder;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
@@ -38,7 +37,7 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
         holder.itemView.setTag(position);
     }
 
-    public interface StepListItemClickListener extends BaseListener {
+    public interface StepListItemClickListener {
         void onTest(int data);
     }
 

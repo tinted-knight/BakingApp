@@ -2,12 +2,10 @@ package com.and.tim.bakingapp.ui.step_instrunctions;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
@@ -15,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
@@ -56,6 +54,7 @@ public class StepInstructionsFragment extends Fragment {
     @Nullable @BindView(R.id.tvStepCount) TextView tvStepCount;
     @Nullable @BindView(R.id.btnNext) Button btnNext;
     @Nullable @BindView(R.id.btnPrev) Button btnPrevious;
+    @BindView(R.id.ivNoVideo) ImageView ivNoVideo;
 
     @BindView(R.id.exoPlayer) PlayerView playerView;
     private SimpleExoPlayer player;
@@ -118,7 +117,6 @@ public class StepInstructionsFragment extends Fragment {
                 new DefaultTrackSelector(),
                 new DefaultLoadControl());
         playerView.setPlayer(player);
-//        playerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video));
         player.seekTo(currentWindow, playbackPosition);
         player.setPlayWhenReady(playWhenReady);
     }
@@ -156,6 +154,18 @@ public class StepInstructionsFragment extends Fragment {
         }
     };
 
+    private void registerObservers() {
+        Observer<StepEntity> stepDataObserver;
+        if (modeMobileLandscape){
+            stepDataObserver = mobileLandscapeObserver;
+        } else {
+            stepDataObserver = commonObserver;
+            stepNavigationObserve();
+        }
+        viewModel.getStepData().observe(this, stepDataObserver);
+        actionBatTitleObserve();
+    }
+
     private void stepNavigationObserve() {
         viewModel.getHasNextStep().observe(this, new Observer<Boolean>() {
             @Override public void onChanged(@Nullable Boolean value) {
@@ -179,14 +189,7 @@ public class StepInstructionsFragment extends Fragment {
         });
     }
 
-    private void registerObservers() {
-        Observer<StepEntity> stepDataObserver = commonObserver;
-        if (modeMobileLandscape) stepDataObserver = mobileLandscapeObserver;
-
-        viewModel.getStepData().observe(this, stepDataObserver);
-
-        stepNavigationObserve();
-
+    private void actionBatTitleObserve() {
         viewModel.getRecipeName().observe(this, new Observer<String>() {
             @Override public void onChanged(@Nullable String value) {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(value);
@@ -214,17 +217,16 @@ public class StepInstructionsFragment extends Fragment {
             playerView.setVisibility(View.VISIBLE);
             player.prepare(mediaSource, true, false);
             player.seekTo(currentWindow, playbackPosition);
+            ivNoVideo.setVisibility(View.GONE);
         } else {
             playerView.setVisibility(View.INVISIBLE);
             player.prepare(null);
-            Toast.makeText(getActivity(), "no video :(", Toast.LENGTH_SHORT).show();
+            ivNoVideo.setVisibility(View.VISIBLE);
         }
     }
 
     private void showStepText(StepEntity step) {
-        if (modeMobileLandscape) {
-//            hideSystemUi();
-        } else {
+        if (!modeMobileLandscape) {
             tvShortDescription.setText(step.getShortDescription());
             tvDescription.setText(step.getDescription());
         }
@@ -241,9 +243,7 @@ public class StepInstructionsFragment extends Fragment {
 
     @Override public void onStart() {
         super.onStart();
-//        if (Util.SDK_INT > 23) {
         initExoPlayer();
-//        }
     }
 
     @Override public void onResume() {

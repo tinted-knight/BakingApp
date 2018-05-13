@@ -6,11 +6,10 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.and.tim.bakingapp.base.Marker;
 import com.and.tim.bakingapp.model.Step;
 
 @Entity(tableName = "steps")
-public class StepEntity implements Marker, Parcelable{
+public class StepEntity implements Parcelable{
 
     @PrimaryKey(autoGenerate = true)
     public int _id;

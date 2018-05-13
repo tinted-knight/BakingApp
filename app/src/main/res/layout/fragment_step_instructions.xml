@@ -6,7 +6,19 @@
                                              android:layout_height="match_parent"
                                              tools:context=".ui.step_instrunctions.StepInstructionsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/ivNoVideo"
+        app:srcCompat="@drawable/no_video"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/exoPlayer"
@@ -21,7 +33,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:show_timeout="1000"/>
+        app:show_timeout="1000">
+
+    </com.google.android.exoplayer2.ui.PlayerView>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

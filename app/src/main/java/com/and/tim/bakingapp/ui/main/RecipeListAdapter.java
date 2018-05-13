@@ -2,31 +2,22 @@ package com.and.tim.bakingapp.ui.main;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.base.BaseListener;
 import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
 import com.and.tim.bakingapp.base.BaseViewHolder;
-import com.and.tim.bakingapp.model.Ingredient;
-import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
 import com.robertlevonyan.views.chip.Chip;
-
-import java.util.List;
 
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 //public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
 public class RecipeListAdapter extends BaseRecyclerViewAdapter
@@ -45,7 +36,7 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
     }
 
 
-    public interface RecipeListItemClick extends BaseListener {
+    public interface RecipeListItemClick {
         //        void onRecipeListItemClick(int recipeId);
         void onRecipeListItemClick(RecipeEntity recipe);
 

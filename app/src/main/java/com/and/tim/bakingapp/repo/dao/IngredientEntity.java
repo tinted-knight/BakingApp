@@ -1,14 +1,12 @@
 package com.and.tim.bakingapp.repo.dao;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.and.tim.bakingapp.base.Marker;
 import com.and.tim.bakingapp.model.Ingredient;
 
 @Entity(tableName = "ingredients")
-public class IngredientEntity implements Marker{
+public class IngredientEntity {
 
     @PrimaryKey(autoGenerate = true)
     public int _id;

@@ -2,14 +2,12 @@ package com.and.tim.bakingapp.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter
-        <H extends BaseViewHolder, L extends BaseListener, I extends Marker>
+        <H extends BaseViewHolder, L, I>
         extends RecyclerView.Adapter<H> {
 
     protected L listener;
