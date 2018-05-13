@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
+import com.and.tim.bakingapp.test.EspressoIdlingResources;
 import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 
 import butterknife.BindView;
@@ -70,6 +71,8 @@ public class StepListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_step_list, container, false);
         ButterKnife.bind(this, root);
 
+        EspressoIdlingResources.increment();
+
         setupStepList();
         setupIngredientList();
 
@@ -105,12 +108,14 @@ public class StepListFragment extends Fragment {
         rvIngredList.setAdapter(ingredAdapter);
 
         if (ingredListExpanded) expandIngedientList();
-        else collapseIngedList();
+        else collapseIngredientList();
 
         btnExpandCollapse.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if (ingredListExpanded) collapseIngedList();
+                EspressoIdlingResources.increment();
+                if (ingredListExpanded) collapseIngredientList();
                 else expandIngedientList();
+                EspressoIdlingResources.decrement();
             }
         });
     }
@@ -122,7 +127,7 @@ public class StepListFragment extends Fragment {
         btnExpandCollapse.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
     }
 
-    private void collapseIngedList() {
+    private void collapseIngredientList() {
         TransitionManager.beginDelayedTransition(layoutSteps);
         rvIngredList.setVisibility(View.GONE);
         ingredListExpanded = false;
@@ -163,6 +168,7 @@ public class StepListFragment extends Fragment {
                     String stepListCaption = String.valueOf(stepList.steps.size()) + " steps to make " + stepList.name;
                     tvName.setText(stepListCaption);
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(stepList.name);
+                    EspressoIdlingResources.decrement();
                 }
             }
         });

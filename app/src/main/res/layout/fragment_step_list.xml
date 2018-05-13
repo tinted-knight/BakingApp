@@ -17,7 +17,7 @@
         <include layout="@layout/card_ingredient_list"/>
 
         <include layout="@layout/card_step_list"/>
-        <!--<include layout="@layout/cart_step_list2"/>-->
 
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>

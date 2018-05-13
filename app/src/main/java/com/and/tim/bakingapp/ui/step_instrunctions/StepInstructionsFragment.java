@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
+import com.and.tim.bakingapp.test.EspressoIdlingResources;
 import com.and.tim.bakingapp.viewmodel.StepInstructionsVM;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -101,6 +102,8 @@ public class StepInstructionsFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_step_instructions, container, false);
         ButterKnife.bind(this, root);
+
+        EspressoIdlingResources.increment();
 
         if (root.findViewById(R.id.layoutMobileLandscape) != null) {
             modeMobileLandscape = true;
@@ -201,9 +204,11 @@ public class StepInstructionsFragment extends Fragment {
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.btnNext:
+                EspressoIdlingResources.increment();
                 viewModel.doNextStep();
                 break;
             case R.id.btnPrev:
+                EspressoIdlingResources.decrement();
                 viewModel.doPreviousStep();
                 break;
         }
@@ -223,6 +228,7 @@ public class StepInstructionsFragment extends Fragment {
             player.prepare(null);
             ivNoVideo.setVisibility(View.VISIBLE);
         }
+        EspressoIdlingResources.decrement();
     }
 
     private void showStepText(StepEntity step) {

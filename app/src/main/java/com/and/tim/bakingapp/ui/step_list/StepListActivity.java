@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.ui.step_instrunctions.StepInstructionsActivity;
 import com.and.tim.bakingapp.ui.step_instrunctions.StepInstructionsFragment;
 import com.and.tim.bakingapp.viewmodel.StepInstructionsVM;
-import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
