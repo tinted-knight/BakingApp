@@ -41,8 +41,7 @@ public class StepListActivity extends AppCompatActivity
         setContentView(R.layout.activity_steps);
         ButterKnife.bind(this);
 
-        modeTablet = findViewById(R.id.layoutSw600) != null
-                || findViewById(R.id.layoutSw600Port) != null;
+        modeTablet = findViewById(R.id.layoutSw600) != null;
         modeTabletPortrait = findViewById(R.id.layoutSw600Port) != null;
 
         if (savedInstanceState == null) {
@@ -71,10 +70,10 @@ public class StepListActivity extends AppCompatActivity
             } else throw new UnsupportedOperationException("Intent action is null");
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState);
-//            if (modeTabletPortrait)
-//                placeFragmentsOnTabletLandToPortait();
-//            if (modeTablet)
-//                placeFragmentsOnTabletPortaitToLand();
+            if (modeTabletPortrait)
+                placeFragmentsOnTabletLandToPortait();
+            if (modeTablet)
+                placeFragmentsOnTabletPortaitToLand();
         }
     }
 
@@ -126,8 +125,6 @@ public class StepListActivity extends AppCompatActivity
         StepInstructionsVM.MyFactory factory =
                 new StepInstructionsVM.MyFactory(getApplication(), recipeId, stepId);
         stepInstructionsVM = ViewModelProviders.of(this, factory).get(StepInstructionsVM.class);
-//        stepInstructionsVM = ViewModelProviders.of(this).get(StepInstructionsVM.class);
-//        stepInstructionsVM.setup(recipeId, stepId);
     }
 
     private void placeFragmentsOnTabletLandToPortait() {

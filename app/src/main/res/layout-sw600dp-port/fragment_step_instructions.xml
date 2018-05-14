@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -66,6 +67,7 @@
 
                 <TextView
                     android:id="@+id/tvShortDescription"
+                    style="@style/StepInstrShortDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -76,6 +78,7 @@
 
                 <TextView
                     android:id="@+id/tvDescription"
+                    style="@style/StepInstrFullDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -89,40 +92,49 @@
         </ScrollView>
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/btnPrev"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableStart="@drawable/ic_chevron_left_black_24dp"
-            android:text="@string/sample_previous"/>
+            android:text="@string/sample_previous"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvStepCount"
+            app:layout_constraintEnd_toStartOf="@+id/tvStepCount"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/tvStepCount"
-            android:layout_width="match_parent"
+            style="@style/StepInstrStepCounter"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/sample_step_counter"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnNext"
+            app:layout_constraintStart_toEndOf="@+id/btnPrev"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/btnNext"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-            android:text="@string/sample_next"/>
-    </LinearLayout>
+            android:text="@string/sample_next"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvStepCount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvStepCount"/>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

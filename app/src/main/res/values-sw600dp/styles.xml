@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="StepListCaption">
+        <!--<item name="android:textStyle">bold</item>-->
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="StepListDescription">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="StepListItem" parent="Base.TextAppearance.AppCompat.Medium">
+
+    </style>
+
+    <style name="StepInstrShortDesc" parent="Base.TextAppearance.AppCompat.Headline">
+
+    </style>
+
+    <style name="StepInstrFullDescription" parent="Base.TextAppearance.AppCompat.Medium">
+
+    </style>
+
+    <style name="StepInstrStepCounter" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="IngredientListItem" parent="Base.TextAppearance.AppCompat.Small">
+        <!--<item name="android:textSize">12sp</item>-->
+    </style>
+
+    <style name="CardActionImageButton" parent="@style/Base.Widget.AppCompat.ActionButton">
+        <!--<item name="android:color">#54000000</item>-->
+    </style>
+
+</resources>
