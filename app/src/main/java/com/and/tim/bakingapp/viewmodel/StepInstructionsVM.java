@@ -18,19 +18,33 @@ import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
 
 public class StepInstructionsVM extends AndroidViewModel {
 
-    private MediatorLiveData<StepEntity> stepData;
+    private MediatorLiveData<StepEntity> stepData = new MediatorLiveData<>();
     private LiveData<StepListForRecipe> stepList;
-    private MutableLiveData<Integer> currentStep;
-    private MutableLiveData<Integer> stepCount;
-    private MediatorLiveData<Boolean> hasNextStep;
-    private MediatorLiveData<Boolean> hasPreviousStep;
-    private MediatorLiveData<Pair<Integer, Integer>> stepCounter;
-    private MutableLiveData<String> recipeName;
+    private MutableLiveData<Integer> currentStep = new MutableLiveData<>();
+    private MutableLiveData<Integer> stepCount = new MutableLiveData<>();
+    private MediatorLiveData<Boolean> hasNextStep = new MediatorLiveData<>();
+    private MediatorLiveData<Boolean> hasPreviousStep = new MediatorLiveData<>();
+    private MediatorLiveData<Pair<Integer, Integer>> stepCounter = new MediatorLiveData<>();
+    private MutableLiveData<String> recipeName = new MutableLiveData<>();
 
     private RecipeListRepo repo;
     private int recipeId;
     private int stepId;
     private int sCount;
+
+//    public void setup(int recipeId, int stepId) {
+//        this.recipeId = recipeId;
+//        this.stepId = stepId;
+//        this.sCount = -1;
+//        repo = RecipeListRepo.get(getApplication());
+//
+//        stepList = repo.getStepList(recipeId);
+//        currentStep.setValue(stepId);
+//        initStepData();
+//        observeHasNextStep();
+//        observeHasPreviousStep();
+//        initStepCounter();
+//    }
 
     StepInstructionsVM(@NonNull Application application, int recipeId, int stepId) {
         super(application);
@@ -40,11 +54,8 @@ public class StepInstructionsVM extends AndroidViewModel {
         this.sCount = -1;
         repo = RecipeListRepo.get(application);
 
-        recipeName = new MutableLiveData<>();
         stepList = repo.getStepList(recipeId);
-        currentStep = new MutableLiveData<>();
         currentStep.setValue(stepId);
-        stepCount = new MutableLiveData<>();
         initStepData();
         observeHasNextStep();
         observeHasPreviousStep();
@@ -52,7 +63,6 @@ public class StepInstructionsVM extends AndroidViewModel {
     }
 
     private void initStepCounter() {
-        stepCounter = new MediatorLiveData<>();
         stepCounter.addSource(stepCount, new Observer<Integer>() {
             @Override public void onChanged(@Nullable Integer i) {
                 if (i != null) {
@@ -74,7 +84,6 @@ public class StepInstructionsVM extends AndroidViewModel {
     }
 
     private void observeHasPreviousStep() {
-        hasPreviousStep = new MediatorLiveData<>();
         hasPreviousStep.addSource(currentStep, new Observer<Integer>() {
             @Override public void onChanged(@Nullable Integer curStep) {
                 hasPreviousStep.setValue(curStep != null && curStep > 0);
@@ -83,7 +92,6 @@ public class StepInstructionsVM extends AndroidViewModel {
     }
 
     private void observeHasNextStep() {
-        hasNextStep = new MediatorLiveData<>();
         hasNextStep.addSource(currentStep, new Observer<Integer>() {
             @Override public void onChanged(@Nullable Integer curStep) {
                 Boolean result = false;
@@ -103,7 +111,6 @@ public class StepInstructionsVM extends AndroidViewModel {
     }
 
     private void initStepData() {
-        stepData = new MediatorLiveData<>();
         // Init once
         stepData.addSource(stepList, new Observer<StepListForRecipe>() {
             @Override public void onChanged(@Nullable StepListForRecipe list) {

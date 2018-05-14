@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-import com.and.tim.bakingapp.ui.widget.IngredientsListService;
-import com.and.tim.bakingapp.ui.widget.IngredientsWidgetProvider;
 
 public class StepListService extends IntentService {
 

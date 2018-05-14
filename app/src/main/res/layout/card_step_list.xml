@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="8dp"
-        android:text="Caption"/>
+        android:text="@string/stub_step_caption"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvStepList"

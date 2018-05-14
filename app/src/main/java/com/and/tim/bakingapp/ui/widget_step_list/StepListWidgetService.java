@@ -8,7 +8,6 @@ import android.widget.RemoteViewsService;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.IngredientEntity;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 import com.and.tim.bakingapp.repo.dao.StepListForRecipe;

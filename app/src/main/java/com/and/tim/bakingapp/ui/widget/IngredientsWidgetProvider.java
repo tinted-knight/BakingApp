@@ -1,6 +1,5 @@
 package com.and.tim.bakingapp.ui.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.ui.step_list.StepListActivity;
 
 public class IngredientsWidgetProvider extends AppWidgetProvider {
 

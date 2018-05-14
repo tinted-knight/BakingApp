@@ -114,6 +114,12 @@ public class StepInstructionsFragment extends Fragment {
         return root;
     }
 
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(getActivity()).get(StepInstructionsVM.class);
+        registerObservers();
+    }
+
     private void initExoPlayer() {
         player = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getActivity()),
@@ -132,12 +138,6 @@ public class StepInstructionsFragment extends Fragment {
             player.release();
             player = null;
         }
-    }
-
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(StepInstructionsVM.class);
-        registerObservers();
     }
 
     private Observer<StepEntity> mobileLandscapeObserver = new Observer<StepEntity>() {
@@ -208,7 +208,7 @@ public class StepInstructionsFragment extends Fragment {
                 viewModel.doNextStep();
                 break;
             case R.id.btnPrev:
-                EspressoIdlingResources.decrement();
+                EspressoIdlingResources.increment();
                 viewModel.doPreviousStep();
                 break;
         }

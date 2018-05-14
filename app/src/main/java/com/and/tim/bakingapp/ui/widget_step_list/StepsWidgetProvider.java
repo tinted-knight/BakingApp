@@ -10,8 +10,6 @@ import android.widget.RemoteViews;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.ui.step_list.StepListActivity;
-import com.and.tim.bakingapp.ui.widget.IngredientsListService;
-import com.and.tim.bakingapp.ui.widget.IngredientsListWidgetService;
 
 public class StepsWidgetProvider extends AppWidgetProvider {
 

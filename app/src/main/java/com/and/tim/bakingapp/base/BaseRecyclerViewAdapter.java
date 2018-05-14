@@ -29,7 +29,7 @@ public abstract class BaseRecyclerViewAdapter
 //        I item = data.get(position);
         currentItem = data.get(position);
         holder.bind(currentItem);
-    };
+    }
 
     @Override public int getItemCount() {
         if (data == null) return 0;

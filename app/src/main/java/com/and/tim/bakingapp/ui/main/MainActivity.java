@@ -2,21 +2,13 @@ package com.and.tim.bakingapp.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.model.Ingredient;
-import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-import com.and.tim.bakingapp.ui.step_instrunctions.StepInstructionsActivity;
 import com.and.tim.bakingapp.ui.step_list.StepListActivity;
 import com.and.tim.bakingapp.viewmodel.RecipeListViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
