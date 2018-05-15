@@ -6,9 +6,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.and.tim.bakingapp.R;
+import com.and.tim.bakingapp.ui.main.MainActivity;
 import com.and.tim.bakingapp.ui.step_list.StepListActivity;
 
 public class StepsWidgetProvider extends AppWidgetProvider {
@@ -31,12 +33,24 @@ public class StepsWidgetProvider extends AppWidgetProvider {
         views.setEmptyView(R.id.lvSteps, R.id.layoutEmpty);
 
         setListClick(context, views);
+        setEmptyClick(context, views);
         //Widget caption
-        String caption = name + ", " + context.getString(R.string.widget_step_list);
-        views.setTextViewText(R.id.tvName, caption);
+        if (name != null) {
+            String caption = name + context.getString(R.string.widget_step_list);
+            views.setTextViewText(R.id.tvName, caption);
+            views.setViewVisibility(R.id.tvName, View.VISIBLE);
+        } else {
+            views.setViewVisibility(R.id.tvName, View.GONE);
+        }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvSteps);
+    }
+
+    private static void setEmptyClick(Context context, RemoteViews views) {
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.layoutEmpty, pendingIntent);
     }
 
     private static void setListClick(Context context, RemoteViews views) {

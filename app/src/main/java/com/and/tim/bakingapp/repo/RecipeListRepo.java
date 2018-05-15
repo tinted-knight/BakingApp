@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.support.v4.util.Pair;
 
 import com.and.tim.bakingapp.model.Recipe;
 import com.and.tim.bakingapp.repo.dao.AppDatabase;
@@ -29,15 +29,14 @@ public class RecipeListRepo {
 
     private AppDatabase db;
     private RecipeDao dao;
-//    private Context context;
 
     private static RecipeListRepo instance = null;
 
     private MutableLiveData<List<RecipeEntity>> data;
+    private MutableLiveData<Pair<Boolean, String>> loadingStatus;
 
     private SharedPreferences sp;
 
-    //TODO check
     public static RecipeListRepo get(Context context) {
         if (instance == null) {
             synchronized (RecipeListRepo.class) {
@@ -52,6 +51,7 @@ public class RecipeListRepo {
     private RecipeListRepo(Context context) {
         api = RecipeListController.getApi();
         data = new MutableLiveData<>();
+        loadingStatus = new MutableLiveData<>();
         db = AppDatabase.getInstance(context);
         dao = db.recipeDao();
         sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -63,18 +63,19 @@ public class RecipeListRepo {
             api.getRecipeList().enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                    List<RecipeEntity> result = new ArrayList<>();
+                    final List<RecipeEntity> result = new ArrayList<>();
                     for (Recipe r : response.body()) {
                         RecipeEntity re = new RecipeEntity(r, false);
                         result.add(re);
                     }
                     data.setValue(result);
+                    loadingStatus.setValue(new Pair<>(true, ""));
                     fillLocalDatabase();
                     sp.edit().putBoolean("first_start", false).apply();
                 }
 
                 @Override public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                    Log.d("TAGG", "onFailure: " + t.toString());
+                    loadingStatus.setValue(new Pair<>(false, t.getMessage()));
                 }
             });
             return data;
@@ -83,34 +84,23 @@ public class RecipeListRepo {
         }
     }
 
-//    public Integer getStepCount(int recipeId) {
-//        return dao.getStepCount(recipeId);
-//    }
+    public LiveData<Pair<Boolean, String>> getLoadingStatus() {
+        return loadingStatus;
+    }
 
     public LiveData<StepListForRecipe> getStepList(int recipeId) {
         return dao.getStepListForRecipe(recipeId);
     }
 
-    public LiveData<StepEntity> getStepById(int recipeId, int stepId) {
-        return dao.getStepById(stepId);
-    }
-
-    public LiveData<StepEntity> getFirstStepForRecipe(int recipeId) {
-        return dao.getFirstStepForRecipe(recipeId);
-    }
-
-    public LiveData<Integer> getMaxStepId(int recipeId) {
-        return dao.getMaxStepId(recipeId);
-    }
-
-    public LiveData<Integer> getMinStepId(int recipeId) {
-        return dao.getMinStepId(recipeId);
-    }
-
     public void pinRecipe(RecipeEntity recipeEntity) {
         recipeEntity.pinned = true;
         dao.unpinAll();
-        dao.pinRecipe(recipeEntity);
+        dao.updateSingeRecipe(recipeEntity);
+    }
+
+    public void unpinRecipe(RecipeEntity recipeEntity) {
+        recipeEntity.pinned = false;
+        dao.updateSingeRecipe(recipeEntity);
     }
 
     public RecipeEntity getPinnedRecipe() {

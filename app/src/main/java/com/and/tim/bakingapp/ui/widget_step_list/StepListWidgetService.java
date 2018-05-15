@@ -34,14 +34,8 @@ class StepListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override public void onDataSetChanged() {
         RecipeListRepo repo = RecipeListRepo.get(context);
-
         RecipeEntity recipeEntity = repo.getPinnedRecipe();
-        if (recipeEntity != null)
-            recipe = repo.getStepListForWidget(recipeEntity.id);
-    }
-
-    @Override public void onDestroy() {
-
+        recipe = (recipeEntity == null) ? null : repo.getStepListForWidget(recipeEntity.id);
     }
 
     @Override public int getCount() {
@@ -65,6 +59,10 @@ class StepListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory
         views.setOnClickFillInIntent(R.id.tvIngredient, clickIntent);
 
         return views;
+    }
+
+    @Override public void onDestroy() {
+
     }
 
     @Override public RemoteViews getLoadingView() {

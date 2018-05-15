@@ -5,11 +5,28 @@
              android:layout_height="match_parent"
              tools:context=".ui.main.RecipeListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRecipeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_recipe_list"/>
+
+    <ProgressBar
+        android:id="@+id/progressLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:drawablePadding="16dp"
+        android:drawableTop="@drawable/network_error"
+        android:lineSpacingExtra="8sp"
+        android:padding="16dp"
+        android:textAlignment="center"
+        tools:text="@string/network_error"/>
+
 </FrameLayout>

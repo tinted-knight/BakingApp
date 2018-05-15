@@ -11,7 +11,6 @@ import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
 import com.and.tim.bakingapp.base.BaseViewHolder;
 import com.and.tim.bakingapp.repo.dao.StepEntity;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,10 +43,7 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
     class StepListViewHolder extends BaseViewHolder<StepEntity> {
 
         @BindView(R.id.tvShortDescription) TextView tvShortDescription;
-//        @BindView(R.id.tvVideo) TextView tvVideo;
         @BindView(R.id.tvPosition) TextView tvPosition;
-
-        @BindString(R.string.alphaStepDescInactive) String alphaStepDescInactive;
 
         StepListViewHolder(View itemView) {
             super(itemView);

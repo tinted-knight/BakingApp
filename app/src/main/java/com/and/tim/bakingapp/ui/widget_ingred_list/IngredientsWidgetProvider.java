@@ -1,13 +1,16 @@
-package com.and.tim.bakingapp.ui.widget;
+package com.and.tim.bakingapp.ui.widget_ingred_list;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.and.tim.bakingapp.R;
+import com.and.tim.bakingapp.ui.main.MainActivity;
 
 public class IngredientsWidgetProvider extends AppWidgetProvider {
 
@@ -28,21 +31,24 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         views.setRemoteAdapter(R.id.lvSteps, intent);
         views.setEmptyView(R.id.lvSteps, R.id.layoutEmpty);
 
-//        setListClick(context, views);
-        //Widget caption
-        String caption = name + ", " + context.getString(R.string.widget_ingredients);
-        views.setTextViewText(R.id.tvName, caption);
+        setEmptyClick(context, views);
+
+        if (name != null) {
+            String caption = name + context.getString(R.string.widget_ingredients);
+            views.setTextViewText(R.id.tvName, caption);
+            views.setViewVisibility(R.id.tvName, View.VISIBLE);
+        } else
+            views.setViewVisibility(R.id.tvName, View.GONE);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lvSteps);
     }
 
-//    private static void setListClick(Context context, RemoteViews views) {
-//        Intent intent = new Intent(context, StepListActivity.class);
-//        intent.setAction(StepListActivity.ACTION_STEP_INSTRUCTIONS);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        views.setPendingIntentTemplate(R.id.lvSteps, pendingIntent);
-//    }
+    private static void setEmptyClick(Context context, RemoteViews views) {
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.layoutEmpty, pendingIntent);
+    }
 
     public static void updateWidgets(Context context, AppWidgetManager appWidgetManager,
                                      int[] appWidgetIds, String name) {

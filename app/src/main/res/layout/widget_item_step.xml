@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tvQuantity"
         android:padding="8dp"
-        android:text="@string/stub_step_short_desc"
+        android:text="@string/sample_step_short_desc"
         android:textColor="#000000"
         android:textSize="12sp"/>
 
@@ -24,7 +24,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:padding="8dp"
-        android:text="@string/stub_quantity"
+        android:text="@string/sample_quantity"
         android:textAlignment="textEnd"
         android:textColor="#000000"
         android:textSize="12sp"/>

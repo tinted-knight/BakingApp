@@ -32,20 +32,6 @@ public class StepInstructionsVM extends AndroidViewModel {
     private int stepId;
     private int sCount;
 
-//    public void setup(int recipeId, int stepId) {
-//        this.recipeId = recipeId;
-//        this.stepId = stepId;
-//        this.sCount = -1;
-//        repo = RecipeListRepo.get(getApplication());
-//
-//        stepList = repo.getStepList(recipeId);
-//        currentStep.setValue(stepId);
-//        initStepData();
-//        observeHasNextStep();
-//        observeHasPreviousStep();
-//        initStepCounter();
-//    }
-
     StepInstructionsVM(@NonNull Application application, int recipeId, int stepId) {
         super(application);
 

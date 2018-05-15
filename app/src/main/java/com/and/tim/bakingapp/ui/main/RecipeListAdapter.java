@@ -35,11 +35,13 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
         return new RecipeListViewHolder(itemView);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull RecipeListViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+    }
 
     public interface RecipeListItemClick {
-        //        void onRecipeListItemClick(int recipeId);
         void onRecipeListItemClick(RecipeEntity recipe);
-
         void onPinRecipe(RecipeEntity recipe);
     }
 
@@ -50,40 +52,33 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
         @BindView(R.id.chipSteps) Chip chipSteps;
         @BindView(R.id.btnPin) ImageButton btnPin;
         @BindView(R.id.btnOpen) ImageButton btnOpen;
-//        @BindView(R.id.imgImage) ImageView imgImage;
 
         @BindString(R.string.label_ingredients) String labelIngredients;
         @BindString(R.string.label_stets) String labelSteps;
 
-        @BindDrawable(value = R.drawable.ic_bookmark_black_24dp, tint = R.attr.colorAccent) Drawable pinnedDrawable;
-        @BindDrawable(value = R.drawable.ic_bookmark_border_black_24dp, tint = R.attr.colorPrimary) Drawable notPinnedDrawable;
+        @BindDrawable(value = R.drawable.ic_bookmark_black_24dp, tint = R.attr.colorAccent)
+        Drawable pinnedDrawable;
+        @BindDrawable(value = R.drawable.ic_bookmark_border_black_24dp, tint = R.attr.colorPrimary)
+        Drawable notPinnedDrawable;
 
-//        @BindDrawable(R.drawable.nutella) Drawable nutella;
-//        @BindDrawable(R.drawable.brownies) Drawable brownies;
-//        @BindDrawable(R.drawable.yellow_cake) Drawable yellowCake;
-//        @BindDrawable(R.drawable.cheesecake) Drawable cheesecake;
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                listener.onRecipeListItemClick(data.get(getAdapterPosition()));
+            }
+        };
 
         RecipeListViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    listener.onRecipeListItemClick(data.get(getAdapterPosition()));
-                }
-            });
-
+            itemView.setOnClickListener(clickListener);
+            btnOpen.setOnClickListener(clickListener);
             btnPin.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onPinRecipe(data.get(getAdapterPosition()));
                 }
             });
 
-            btnOpen.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    listener.onRecipeListItemClick(data.get(getAdapterPosition()));
-                }
-            });
         }
 
         @Override public void bind(RecipeEntity recipe) {
@@ -98,22 +93,6 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
                 btnPin.setImageDrawable(pinnedDrawable);
             } else
                 btnPin.setImageDrawable(notPinnedDrawable);
-
-//            switch (recipe.name.toLowerCase()) {
-//                case "nutella pie":
-//                    imgImage.setImageDrawable(nutella);
-//                    break;
-//                case "brownies":
-//                    imgImage.setImageDrawable(brownies);
-//                    break;
-//                case "yellow cake":
-//                    imgImage.setImageDrawable(yellowCake);
-//                    break;
-//                case "cheesecake":
-//                    imgImage.setImageDrawable(cheesecake);
-//                    break;
-//            }
-
         }
     }
 

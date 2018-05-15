@@ -1,4 +1,4 @@
-package com.and.tim.bakingapp.ui.widget;
+package com.and.tim.bakingapp.ui.widget_ingred_list;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
@@ -38,10 +38,9 @@ public class IngredientsListService extends IntentService {
     private void handleActionUpdateWidget() {
         RecipeListRepo repo = RecipeListRepo.get(this.getApplication());
         RecipeEntity recipe = repo.getPinnedRecipe();
-        String name = "no data";
-        if (recipe != null) {
-            name = recipe.name;
-        }
+
+        String name = (recipe == null) ? null : recipe.name;
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientsWidgetProvider.class));
 

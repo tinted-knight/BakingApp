@@ -2,13 +2,12 @@ package com.and.tim.bakingapp.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter
-        <H extends BaseViewHolder, L, I>
-        extends RecyclerView.Adapter<H> {
+        <VH extends BaseViewHolder, L, I>
+        extends RecyclerView.Adapter<VH> {
 
     protected L listener;
     protected List<I> data;
@@ -22,11 +21,10 @@ public abstract class BaseRecyclerViewAdapter
         }
     }
 
-    @NonNull @Override public abstract H onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
+//    @NonNull @Override public abstract VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
 
 
-    @Override public void onBindViewHolder(@NonNull H holder, int position) {
-//        I item = data.get(position);
+    @Override public void onBindViewHolder(@NonNull VH holder, int position) {
         currentItem = data.get(position);
         holder.bind(currentItem);
     }

@@ -1,4 +1,4 @@
-package com.and.tim.bakingapp.ui.widget;
+package com.and.tim.bakingapp.ui.widget_ingred_list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.widget.RemoteViewsService;
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
 import com.and.tim.bakingapp.repo.dao.IngredientEntity;
+import com.and.tim.bakingapp.repo.dao.IngredientsForRecipe;
 import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
 
 public class IngredientsListWidgetService extends RemoteViewsService {
 
@@ -23,7 +23,7 @@ public class IngredientsListWidgetService extends RemoteViewsService {
 class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private Context context;
-    private StepListForRecipe recipe;
+    private IngredientsForRecipe recipe;
 
     public IngredientsListRemoteViewFactory(Context appContext) {
         context = appContext;
@@ -34,14 +34,8 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
 
     @Override public void onDataSetChanged() {
         RecipeListRepo repo = RecipeListRepo.get(context);
-
         RecipeEntity recipeEntity = repo.getPinnedRecipe();
-        if (recipeEntity != null)
-            recipe = repo.getStepListForWidget(recipeEntity.id);
-    }
-
-    @Override public void onDestroy() {
-
+        recipe = (recipeEntity == null) ? null : repo.getIngredientsForWidget(recipeEntity.id);
     }
 
     @Override public int getCount() {
@@ -60,12 +54,11 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
         views.setTextViewText(R.id.tvIngredient, ingredient);
         views.setTextViewText(R.id.tvQuantity, quantity);
 
-//        Intent clickIntent = new Intent();
-//        clickIntent.putExtra(context.getString(R.string.stepKey), position);
-//        clickIntent.putExtra(context.getString(R.string.recipeKey), recipe._id);
-//        views.setOnClickFillInIntent(R.id.tvIngredient, clickIntent);
-
         return views;
+    }
+
+    @Override public void onDestroy() {
+
     }
 
     @Override public RemoteViews getLoadingView() {

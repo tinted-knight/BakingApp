@@ -57,5 +57,5 @@ public interface RecipeDao {
     void unpinAll();
 
     @Update()
-    void pinRecipe(RecipeEntity entity);
+    void updateSingeRecipe(RecipeEntity entity);
 }

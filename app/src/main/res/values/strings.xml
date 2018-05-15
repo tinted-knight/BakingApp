@@ -2,8 +2,8 @@
     <string name="app_name">BakingApp</string>
 
     <!--Widget captions-->
-    <string name="widget_ingredients">list of ingredients</string>
-    <string name="widget_step_list">list of steps</string>
+    <string name="widget_ingredients">, list of ingredients</string>
+    <string name="widget_step_list">, list of steps</string>
 
     <!--Param keys-->
     <string name="recipeKey">recipe_id</string>
@@ -12,22 +12,21 @@
     <!--Shared pref keys-->
     <string name="first_start">first_start</string>
 
-    <!--Float values-->
-    <string name="alphaStepDescInactive">0.1</string>
-
     <!--Labels-->
     <string name="label_ingredients">Ingredients</string>
     <string name="label_stets">Steps</string>
+    <string name="label_loading">Loading…</string>
 
     <!--Error messages-->
     <string name="common_error">Common error</string>
+    <string name="network_error">Error happened while trying to get data.\nTap this message to see full error</string>
 
     <!--Stubs-->
-    <string name="stub_recipe_name">Recipe name</string>
-    <string name="stub_widget_no_data">Nooooo!!!!</string>
-    <string name="stub_step_short_desc">Short description</string>
-    <string name="stub_quantity">13 CUPS</string>
-    <string name="stub_step_caption">Starting prep</string>
+    <string name="sample_recipe_name">Recipe name</string>
+    <string name="sample_widget_no_data">Mark the recipe you want to display useful info in widget</string>
+    <string name="sample_step_short_desc">Short description</string>
+    <string name="sample_quantity">13 CUPS</string>
+    <string name="sample_step_caption">Starting prep</string>
     <string name="sample_step_description"><![CDATA[2. Whisk the graham cracker crumbs, 50 grams (&#188; cup) of sugar, and &#189; teaspoon of salt together in a medium bowl. Pour the melted butter and 1 teaspoon of vanilla into the dry ingredients and stir together until evenly mixed.]]></string>
     <string name="sample_previous">Previous</string>
     <string name="sample_step_counter">2 of 10</string>

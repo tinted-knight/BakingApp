@@ -10,7 +10,7 @@ public class IngredientsForRecipe {
 
     public String name;
 
-    @Relation(parentColumn = "_id" ,entityColumn = "recipeId")
+    @Relation(parentColumn = "_id", entityColumn = "recipeId")
     public List<IngredientEntity> ingredients;
 
 }

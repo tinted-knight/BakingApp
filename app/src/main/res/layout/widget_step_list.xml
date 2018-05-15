@@ -15,7 +15,7 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/stub_recipe_name"/>
+            android:text="@string/sample_recipe_name"/>
 
         <ListView
             android:id="@+id/lvSteps"
@@ -27,18 +27,18 @@
         </ListView>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/actionAreaBg">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/stub_widget_no_data"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/sample_widget_no_data"/>
+    </FrameLayout>
 
 </FrameLayout>
