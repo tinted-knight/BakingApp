@@ -18,6 +18,8 @@
         android:layout_gravity="center_vertical|center_horizontal"/>
 
     <LinearLayout
+        android:id="@+id/layoutError"
+        android:visibility="gone"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"

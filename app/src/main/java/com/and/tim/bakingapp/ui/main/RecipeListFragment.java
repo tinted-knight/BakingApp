@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class RecipeListFragment extends Fragment {
     @BindView(R.id.rvRecipeList) RecyclerView rvRecipeList;
     @BindView(R.id.tvErrorMessage) TextView tvErrorMessage;
     @BindView(R.id.progressLoading) ProgressBar progressLoading;
+    @BindView(R.id.layoutError) LinearLayout layoutError;
 
     @BindInt(R.integer.smallest_screen_width_for_tablet) int SMALLEST_SCREEN_WIDTH;
     @BindString(R.string.network_error) String networkError;
@@ -92,18 +94,18 @@ public class RecipeListFragment extends Fragment {
                 if (state != null && state.first != null) {
                     switch (state.first) {
                         case LOADING:
+                            layoutError.setVisibility(View.GONE);
                             progressLoading.setVisibility(View.VISIBLE);
-                            tvErrorMessage.setVisibility(View.GONE);
                             break;
                         case DONE:
+                            layoutError.setVisibility(View.GONE);
                             progressLoading.setVisibility(View.GONE);
-                            tvErrorMessage.setVisibility(View.GONE);
                             break;
                         case ERROR:
                             progressLoading.setVisibility(View.GONE);
                             tvErrorMessage.setTag(state.second);
                             tvErrorMessage.setText(networkError);
-                            tvErrorMessage.setVisibility(View.VISIBLE);
+                            layoutError.setVisibility(View.VISIBLE);
                             break;
                     }
                 }
