@@ -26,6 +26,8 @@ import retrofit2.Response;
 
 public class RecipeListRepo {
 
+    public static final String FIRST_START_KEY = "first_start";
+
     private RecipeListApi api;
 
     private AppDatabase db;
@@ -59,7 +61,7 @@ public class RecipeListRepo {
     }
 
     public LiveData<List<RecipeEntity>> getRecipeList() {
-        boolean firstStart = sp.getBoolean("first_start", true);
+        boolean firstStart = sp.getBoolean(FIRST_START_KEY, true);
         if (firstStart) {
             api.getRecipeList().enqueue(new Callback<List<Recipe>>() {
                 @Override

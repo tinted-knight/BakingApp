@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".ui.widget_ingred_list.IngredientsWidgetProvider">
+        <receiver
+            android:name=".ui.widget_ingred_list.IngredientsWidgetProvider"
+            android:label="@string/widget_label_ingredients">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -27,7 +29,9 @@
 
         <service android:name=".ui.widget_ingred_list.IngredientsListService"/>
 
-        <receiver android:name=".ui.widget_step_list.StepsWidgetProvider">
+        <receiver
+            android:name=".ui.widget_step_list.StepsWidgetProvider"
+            android:label="@string/widget_label_steps">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

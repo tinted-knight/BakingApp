@@ -12,5 +12,4 @@
     <dimen name="card_chip_margin">16dp</dimen>
     <dimen name="card_chip_spacing">8dp</dimen>
     <dimen name="step_list_start_margin">32dp</dimen>
-    <dimen name="step_list_text_padding">2dp</dimen>
 </resources>

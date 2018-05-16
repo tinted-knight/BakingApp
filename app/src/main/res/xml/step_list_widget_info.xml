@@ -4,7 +4,7 @@
     android:initialLayout="@layout/step_list_widget"
     android:minHeight="40dp"
     android:minWidth="110dp"
-    android:previewImage="@drawable/ic_launcher_foreground"
+    android:previewImage="@drawable/widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"/>

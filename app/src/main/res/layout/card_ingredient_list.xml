@@ -19,6 +19,7 @@
         <ImageButton
             android:id="@+id/btnExpandCollapse"
             style="@style/Base.Widget.AppCompat.ActionButton"
+            android:contentDescription="@string/content_desc_ingred_list"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="@dimen/default_margin"

@@ -9,7 +9,7 @@ import com.and.tim.bakingapp.repo.dao.entities.IngredientEntity;
 import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 import com.and.tim.bakingapp.repo.dao.entities.StepEntity;
 
-@Database(entities = {RecipeEntity.class, StepEntity.class, IngredientEntity.class}, version = 1)
+@Database(entities = {RecipeEntity.class, StepEntity.class, IngredientEntity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

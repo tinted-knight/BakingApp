@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 
 import com.and.tim.bakingapp.repo.dao.entities.IngredientEntity;
@@ -27,15 +28,19 @@ public interface RecipeDao {
     @Query("select * from recipes where pinned = 1")
     RecipeEntity getPinnedRecipe();
 
+    @Transaction
     @Query("select _id, name from recipes where _id = :recipeId")
     LiveData<StepListForRecipe> getStepListForRecipe(int recipeId);
 
+    @Transaction
     @Query("select _id, name from recipes where _id = :recipeId")
     LiveData<RecipeStepsAndIngredients> getRecipeLists(int recipeId);
 
+    @Transaction
     @Query("select _id, name from recipes where _id = :recipeId")
     StepListForRecipe getStepListForWidget(int recipeId);
 
+    @Transaction
     @Query("select _id, name from recipes where _id = :recipeId")
     IngredientsForRecipe getIngredientsForWidget(int recipeId);
 

@@ -33,7 +33,8 @@
 
         <ImageButton
             android:id="@+id/btnPin"
-            style="@style/Base.Widget.AppCompat.ActionButton"
+            android:contentDescription="@string/content_desc_pinn_recipe"
+            style="@style/CardActionImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_caption_margin"
@@ -66,7 +67,8 @@
 
         <ImageButton
             android:id="@+id/btnOpen"
-            style="@style/Base.Widget.AppCompat.ActionButton"
+            android:contentDescription="@string/content_desc_show_step_list"
+            style="@style/CardActionImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_action_button_margin"

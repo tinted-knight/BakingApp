@@ -4,13 +4,12 @@
     <!--Widget captions-->
     <string name="widget_ingredients">, list of ingredients</string>
     <string name="widget_step_list">, list of steps</string>
+    <string name="widget_label_ingredients">List of ingredients</string>
+    <string name="widget_label_steps">List of steps</string>
 
     <!--Param keys-->
     <string name="recipeKey">recipe_id</string>
     <string name="stepKey">step_id</string>
-
-    <!--Shared pref keys-->
-    <string name="first_start">first_start</string>
 
     <!--Labels-->
     <string name="label_ingredients">Ingredients</string>
@@ -20,7 +19,6 @@
     <string name="previous">Previous</string>
 
     <!--Error messages-->
-    <string name="common_error">Common error</string>
     <string name="network_error">Error happened while trying to get data.\nTap this message to see full error</string>
 
     <!--Sample data-->
@@ -37,5 +35,9 @@
     <string name="sample_chip_text_ingred">9 ingredients</string>
     <string name="sample_chip_text_steps">7 steps</string>
     <string name="one">1</string>
+    <string name="content_desc_no_video">No video for this step</string>
+    <string name="content_desc_pinn_recipe">Pinn recipe</string>
+    <string name="content_desc_show_step_list">Show step list</string>
+    <string name="content_desc_ingred_list">Expand/collapse ingredients list</string>
 
 </resources>

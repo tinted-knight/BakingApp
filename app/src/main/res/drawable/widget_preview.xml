@@ -1,0 +1,3 @@
+<bitmap
+    android:src="@drawable/widget_preview_bitmap"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

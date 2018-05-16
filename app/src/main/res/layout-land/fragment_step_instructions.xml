@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/ivNoVideo"
+        android:contentDescription="@string/content_desc_no_video"
         app:srcCompat="@drawable/no_video"
         android:layout_width="0dp"
         android:layout_height="0dp"

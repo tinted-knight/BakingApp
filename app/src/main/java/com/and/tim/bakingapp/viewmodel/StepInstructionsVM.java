@@ -28,14 +28,12 @@ public class StepInstructionsVM extends AndroidViewModel {
     private MutableLiveData<String> recipeName = new MutableLiveData<>();
 
     private RecipeListRepo repo;
-    private int recipeId;
     private int stepId;
     private int sCount;
 
     StepInstructionsVM(@NonNull Application application, int recipeId, int stepId) {
         super(application);
 
-        this.recipeId = recipeId;
         this.stepId = stepId;
         this.sCount = -1;
         repo = RecipeListRepo.get(application);
@@ -131,14 +129,6 @@ public class StepInstructionsVM extends AndroidViewModel {
 
     public LiveData<Pair<Integer, Integer>> getStepCounter() {
         return stepCounter;
-    }
-
-    public LiveData<Integer> getCurrentStep() {
-        return currentStep;
-    }
-
-    public LiveData<Integer> getStepCount() {
-        return stepCount;
     }
 
     public LiveData<String> getRecipeName() {

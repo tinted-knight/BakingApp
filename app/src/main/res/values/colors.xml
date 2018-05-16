@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#0f4471</color>
     <color name="colorPrimaryDark">#083358</color>
     <color name="colorAccent">#f44336</color>
 
-    <color name="stepDescInactive">#10000000</color>
-    <color name="actionAreaBg">#20000000</color>
-
-    <color name="captionBg">#87000000</color>
-    <color name="captionText">#ffffff</color>
-
     <color name="list_light_row">#ffffff</color>
     <color name="list_dark_row">#10000000</color>
+
+    <color name="actionAreaBg">#20000000</color>
+
 </resources>
