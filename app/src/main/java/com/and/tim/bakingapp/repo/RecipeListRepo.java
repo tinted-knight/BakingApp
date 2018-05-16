@@ -7,14 +7,15 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.util.Pair;
 
-import com.and.tim.bakingapp.model.Recipe;
+import com.and.tim.bakingapp.json_model.Recipe;
 import com.and.tim.bakingapp.repo.dao.AppDatabase;
-import com.and.tim.bakingapp.repo.dao.IngredientEntity;
-import com.and.tim.bakingapp.repo.dao.IngredientsForRecipe;
+import com.and.tim.bakingapp.repo.dao.entities.IngredientEntity;
+import com.and.tim.bakingapp.repo.dao.query_models.IngredientsForRecipe;
 import com.and.tim.bakingapp.repo.dao.RecipeDao;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
-import com.and.tim.bakingapp.repo.dao.StepEntity;
-import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.StepEntity;
+import com.and.tim.bakingapp.repo.dao.query_models.RecipeStepsAndIngredients;
+import com.and.tim.bakingapp.repo.dao.query_models.StepListForRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,10 @@ public class RecipeListRepo {
 
     public LiveData<StepListForRecipe> getStepList(int recipeId) {
         return dao.getStepListForRecipe(recipeId);
+    }
+
+    public LiveData<RecipeStepsAndIngredients> getRecipeLists(int recipeId) {
+        return dao.getRecipeLists(recipeId);
     }
 
     public void pinRecipe(RecipeEntity recipeEntity) {

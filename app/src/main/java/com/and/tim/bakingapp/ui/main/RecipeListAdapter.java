@@ -2,6 +2,7 @@ package com.and.tim.bakingapp.ui.main;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,35 +10,47 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
-import com.and.tim.bakingapp.base.BaseViewHolder;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 import com.robertlevonyan.views.chip.Chip;
+
+import java.util.List;
 
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-//public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
-public class RecipeListAdapter extends BaseRecyclerViewAdapter
-        <RecipeListAdapter.RecipeListViewHolder, RecipeListAdapter.RecipeListItemClick, RecipeEntity> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
 
-    public RecipeListAdapter(RecipeListItemClick listener, int itemLayoutId) {
-        super(listener, itemLayoutId);
+    private List<RecipeEntity> data;
+    private RecipeListItemClick listener;
+
+    public RecipeListAdapter(RecipeListItemClick listener) {
+        if (listener != null) this.listener = listener;
     }
 
     @NonNull @Override
     public RecipeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(itemLayoutId, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.item_recipe_list, parent, false);
 
         return new RecipeListViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecipeListViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+        holder.bind(data.get(position));
+    }
+
+    @Override public int getItemCount() {
+        if (data == null) return 0;
+        return data.size();
+    }
+
+    public void setData(List<RecipeEntity> newData) {
+        if (newData == null) return;
+        data = newData;
+        this.notifyDataSetChanged();
     }
 
     public interface RecipeListItemClick {
@@ -45,7 +58,7 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
         void onPinRecipe(RecipeEntity recipe);
     }
 
-    class RecipeListViewHolder extends BaseViewHolder<RecipeEntity> {
+    class RecipeListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvName) TextView tvName;
         @BindView(R.id.chipIngredients) Chip chipIngredients;
@@ -81,7 +94,7 @@ public class RecipeListAdapter extends BaseRecyclerViewAdapter
 
         }
 
-        @Override public void bind(RecipeEntity recipe) {
+        public void bind(RecipeEntity recipe) {
             tvName.setText(recipe.name);
 
             String textIngredients = String.valueOf(recipe.ingredientsCount) + " " + labelIngredients;

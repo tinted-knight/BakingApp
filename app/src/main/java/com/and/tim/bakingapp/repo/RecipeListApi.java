@@ -1,6 +1,6 @@
 package com.and.tim.bakingapp.repo;
 
-import com.and.tim.bakingapp.model.Recipe;
+import com.and.tim.bakingapp.json_model.Recipe;
 
 import java.util.List;
 

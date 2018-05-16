@@ -1,4 +1,4 @@
-package com.and.tim.bakingapp.repo.dao;
+package com.and.tim.bakingapp.repo.dao.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.and.tim.bakingapp.model.Step;
+import com.and.tim.bakingapp.json_model.Step;
 
 @Entity(tableName = "steps")
 public class StepEntity implements Parcelable{
@@ -75,8 +75,8 @@ public class StepEntity implements Parcelable{
     public String getDescription() {
         if (stepId == 0)
             return description;
-        else
-            return description;
+        else //Remove leading step counter
+            return description.substring(3, description.length()).trim();
     }
 
     public void setDescription(String description) {

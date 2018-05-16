@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 import com.and.tim.bakingapp.ui.step_list.StepListActivity;
 import com.and.tim.bakingapp.viewmodel.RecipeListViewModel;
 

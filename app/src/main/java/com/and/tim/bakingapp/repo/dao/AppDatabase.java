@@ -5,6 +5,10 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.and.tim.bakingapp.repo.dao.entities.IngredientEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.StepEntity;
+
 @Database(entities = {RecipeEntity.class, StepEntity.class, IngredientEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 

@@ -13,8 +13,8 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.StepEntity;
-import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
+import com.and.tim.bakingapp.repo.dao.entities.StepEntity;
+import com.and.tim.bakingapp.repo.dao.query_models.StepListForRecipe;
 
 public class StepInstructionsVM extends AndroidViewModel {
 

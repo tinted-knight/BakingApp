@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.test.EspressoIdlingResources;
@@ -20,7 +19,7 @@ import icepick.Icepick;
 import icepick.State;
 
 public class StepListActivity extends AppCompatActivity
-        implements StepListAdapter.StepListItemClickListener, IngredientsAdapter.IngredItemClickListener {
+        implements StepListAdapter.StepListItemClickListener {
 
     @State int recipeId;
     private boolean modeTablet;
@@ -96,7 +95,7 @@ public class StepListActivity extends AppCompatActivity
                 getSupportFragmentManager()
                         .findFragmentByTag(StepInstructionsFragment.class.getSimpleName());
         if (stepInstructionsFragment == null) {
-            stepInstructionsFragment = StepInstructionsFragment.newInstance(recipeId, stepId);
+            stepInstructionsFragment = new StepInstructionsFragment();
             getSupportFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.fragStepInstructions,
@@ -108,7 +107,7 @@ public class StepListActivity extends AppCompatActivity
 
     private void showStepInstructionsSeparate(int data) {
         setupInstructionsViewModel(data);
-        StepInstructionsFragment fragment = StepInstructionsFragment.newInstance(recipeId, data);
+        StepInstructionsFragment fragment = new StepInstructionsFragment();
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("BackStackTag")
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -167,7 +166,7 @@ public class StepListActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    @Override public void onTest(int data) {
+    @Override public void onStepListItemClick(int data) {
         if (modeTablet)
             showStepInstructionsHere(data);
         else {
@@ -175,7 +174,4 @@ public class StepListActivity extends AppCompatActivity
         }
     }
 
-    @Override public void onIngredItemClick() {
-        Toast.makeText(this, "ingred click", Toast.LENGTH_SHORT).show();
-    }
 }

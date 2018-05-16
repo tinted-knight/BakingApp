@@ -20,18 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-//    sourceSets {
-//        main {
-//            res.srcDirs = [
-//                    'src/main/res/layout/recipe_list',
-//                    'src/main/res/layout',
-//                    'src/main/res'
-//            ]
-//        }
-//    }
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'

@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 
 public class IngredientsListService extends IntentService {
 

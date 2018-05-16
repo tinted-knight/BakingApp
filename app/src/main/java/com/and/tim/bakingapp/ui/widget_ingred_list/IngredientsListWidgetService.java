@@ -7,9 +7,9 @@ import android.widget.RemoteViewsService;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.IngredientEntity;
-import com.and.tim.bakingapp.repo.dao.IngredientsForRecipe;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.IngredientEntity;
+import com.and.tim.bakingapp.repo.dao.query_models.IngredientsForRecipe;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 
 public class IngredientsListWidgetService extends RemoteViewsService {
 

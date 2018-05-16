@@ -1,13 +1,13 @@
-package com.and.tim.bakingapp.repo.dao;
+package com.and.tim.bakingapp.repo.dao.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.and.tim.bakingapp.model.Ingredient;
-import com.and.tim.bakingapp.model.Recipe;
-import com.and.tim.bakingapp.model.Step;
+import com.and.tim.bakingapp.json_model.Ingredient;
+import com.and.tim.bakingapp.json_model.Recipe;
+import com.and.tim.bakingapp.json_model.Step;
 
 import java.util.ArrayList;
 import java.util.List;

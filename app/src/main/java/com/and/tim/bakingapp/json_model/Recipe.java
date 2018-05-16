@@ -1,4 +1,4 @@
-package com.and.tim.bakingapp.model;
+package com.and.tim.bakingapp.json_model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

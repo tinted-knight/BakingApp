@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
+import com.and.tim.bakingapp.repo.dao.query_models.RecipeStepsAndIngredients;
 import com.and.tim.bakingapp.test.EspressoIdlingResources;
 import com.and.tim.bakingapp.viewmodel.StepListViewModel;
 
@@ -102,9 +102,7 @@ public class StepListFragment extends Fragment {
         rvIngredList.setNestedScrollingEnabled(false);
 
         if (ingredAdapter == null)
-            ingredAdapter = new IngredientsAdapter(
-                    (IngredientsAdapter.IngredItemClickListener) getActivity(),
-                    R.layout.item_ingredient);
+            ingredAdapter = new IngredientsAdapter();
         rvIngredList.setAdapter(ingredAdapter);
 
         if (ingredListExpanded) expandIngedientList();
@@ -145,9 +143,7 @@ public class StepListFragment extends Fragment {
         ));
         rvStepList.setNestedScrollingEnabled(false);
         if (stepAdapter == null)
-            stepAdapter = new StepListAdapter(
-                    (StepListAdapter.StepListItemClickListener) getActivity(),
-                    R.layout.item_step_list);
+            stepAdapter = new StepListAdapter((StepListAdapter.StepListItemClickListener) getActivity());
         rvStepList.setAdapter(stepAdapter);
     }
 
@@ -159,8 +155,8 @@ public class StepListFragment extends Fragment {
     }
 
     private void registerObservers() {
-        viewModel.stepList.observe(this, new Observer<StepListForRecipe>() {
-            @Override public void onChanged(@Nullable StepListForRecipe stepList) {
+        viewModel.stepList.observe(this, new Observer<RecipeStepsAndIngredients>() {
+            @Override public void onChanged(@Nullable RecipeStepsAndIngredients stepList) {
                 if (stepList != null) {
                     stepAdapter.setData(stepList.steps);
                     ingredAdapter.setData(stepList.ingredients);

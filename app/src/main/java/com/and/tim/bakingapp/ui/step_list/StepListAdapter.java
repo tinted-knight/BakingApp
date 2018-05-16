@@ -1,46 +1,58 @@
 package com.and.tim.bakingapp.ui.step_list;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.base.BaseRecyclerViewAdapter;
-import com.and.tim.bakingapp.base.BaseViewHolder;
-import com.and.tim.bakingapp.repo.dao.StepEntity;
+import com.and.tim.bakingapp.repo.dao.entities.StepEntity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-//public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepListViewHolder> {
-public class StepListAdapter extends BaseRecyclerViewAdapter<
-        StepListAdapter.StepListViewHolder, StepListAdapter.StepListItemClickListener, StepEntity> {
+public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepListViewHolder> {
 
-    public StepListAdapter(StepListItemClickListener listener, int itemLayoutId) {
-        super(listener, itemLayoutId);
+    private List<StepEntity> data;
+    StepListItemClickListener listener;
+
+    public StepListAdapter(StepListItemClickListener listener) {
+        if (listener != null) this.listener = listener;
     }
 
     @NonNull @Override
     public StepListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(itemLayoutId, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.item_step_list, parent, false);
 
         return new StepListViewHolder(itemView);
     }
 
     @Override public void onBindViewHolder(@NonNull StepListViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-//        holder.itemView.setTag(currentItem._id);
+        holder.bind(data.get(position));
         holder.itemView.setTag(position);
     }
 
-    public interface StepListItemClickListener {
-        void onTest(int data);
+    @Override public int getItemCount() {
+        if (data == null) return 0;
+        return data.size();
     }
 
-    class StepListViewHolder extends BaseViewHolder<StepEntity> {
+    public void setData(List<StepEntity> newData) {
+        if (newData == null) return;
+        data = newData;
+        this.notifyDataSetChanged();
+    }
+
+    public interface StepListItemClickListener {
+        void onStepListItemClick(int data);
+    }
+
+    class StepListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvShortDescription) TextView tvShortDescription;
         @BindView(R.id.tvPosition) TextView tvPosition;
@@ -51,12 +63,12 @@ public class StepListAdapter extends BaseRecyclerViewAdapter<
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    listener.onTest((Integer) v.getTag());
+                    listener.onStepListItemClick((Integer) v.getTag());
                 }
             });
         }
 
-        @Override public void bind(StepEntity step) {
+        public void bind(StepEntity step) {
             tvShortDescription.setText(step.getShortDescription());
             tvPosition.setText(String.valueOf(getAdapterPosition() + 1));
         }

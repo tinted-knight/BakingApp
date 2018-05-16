@@ -8,24 +8,19 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.StepListForRecipe;
+import com.and.tim.bakingapp.repo.dao.query_models.RecipeStepsAndIngredients;
 
 public class StepListViewModel extends AndroidViewModel {
 
-    public LiveData<StepListForRecipe> stepList;
+    public LiveData<RecipeStepsAndIngredients> stepList;
 
     private RecipeListRepo repo;
 
     StepListViewModel(@NonNull Application application, int recipeId) {
         super(application);
         repo = RecipeListRepo.get(getApplication());
-        stepList = repo.getStepList(recipeId);
+        stepList = repo.getRecipeLists(recipeId);
     }
-
-//    public void init(int recipeId) {
-//        repo = RecipeListRepo.get(getApplication());
-//        stepList = repo.getStepList(recipeId);
-//    }
 
     public static class MyFactory extends ViewModelProvider.NewInstanceFactory {
 

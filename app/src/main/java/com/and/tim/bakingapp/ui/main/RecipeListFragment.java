@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 import com.and.tim.bakingapp.viewmodel.RecipeListViewModel;
 
 import java.util.List;
@@ -52,9 +52,7 @@ public class RecipeListFragment extends Fragment {
 
         ButterKnife.bind(this, root);
 
-        adapter = new RecipeListAdapter(
-                (RecipeListAdapter.RecipeListItemClick) getActivity(),
-                R.layout.item_recipe_list);
+        adapter = new RecipeListAdapter((RecipeListAdapter.RecipeListItemClick) getActivity());
         recyclerViewSetup();
 
         return root;

@@ -2,14 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--Step List-->
     <style name="StepListCaption">
-        <!--<item name="android:textStyle">bold</item>-->
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">14sp</item>
         <item name="android:background">@color/colorPrimary</item>
@@ -24,22 +23,25 @@
 
     </style>
 
+    <!--Step Instructions-->
     <style name="StepInstrShortDesc" parent="Base.TextAppearance.AppCompat.Headline">
 
     </style>
 
     <style name="StepInstrFullDescription" parent="Base.TextAppearance.AppCompat.Medium">
-
+        <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
     <style name="StepInstrStepCounter" parent="Base.TextAppearance.AppCompat.Medium">
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!--Ingredient List-->
     <style name="IngredientListItem" parent="Base.TextAppearance.AppCompat.Small">
         <!--<item name="android:textSize">12sp</item>-->
     </style>
 
+    <!--Recipe List-->
     <style name="CardActionImageButton" parent="@style/Base.Widget.AppCompat.ActionButton">
         <!--<item name="android:color">#54000000</item>-->
     </style>

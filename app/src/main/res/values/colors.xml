@@ -9,4 +9,7 @@
 
     <color name="captionBg">#87000000</color>
     <color name="captionText">#ffffff</color>
+
+    <color name="list_light_row">#ffffff</color>
+    <color name="list_dark_row">#10000000</color>
 </resources>

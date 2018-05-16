@@ -8,24 +8,22 @@
 
     <TextView
         android:id="@+id/tvIngredient"
+        style="@style/WidgetIngredientItem"
         android:layout_width="318dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tvQuantity"
         android:padding="8dp"
-        android:text="@string/sample_step_short_desc"
-        android:textColor="#000000"
-        android:textSize="12sp"/>
+        android:text="@string/sample_ingredient"/>
 
     <TextView
         android:id="@+id/tvQuantity"
+        style="@style/WidgetIngredientItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:padding="8dp"
         android:text="@string/sample_quantity"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="12sp"/>
+        android:textAlignment="textEnd" />
 </RelativeLayout>

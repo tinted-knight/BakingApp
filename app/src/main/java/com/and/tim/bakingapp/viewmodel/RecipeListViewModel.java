@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
 import com.and.tim.bakingapp.repo.RecipeListRepo;
-import com.and.tim.bakingapp.repo.dao.RecipeEntity;
+import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
 import com.and.tim.bakingapp.ui.widget_ingred_list.IngredientsListService;
 import com.and.tim.bakingapp.ui.widget_step_list.StepListService;
 
