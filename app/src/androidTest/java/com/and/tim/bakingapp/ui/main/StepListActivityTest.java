@@ -61,7 +61,7 @@ public class StepListActivityTest {
         onView(withId(R.id.tvName)).check(matches(withText(STEP_LIST_CAPTION)));
     }
 
-    @Test
+    @Test // Test for portrait layout mobile and tablet
     public void stepListTest_clickFromFirstToLast() {
         // Click first item, prev button not active
         onView(withId(R.id.rvStepList)).perform(actionOnItemAtPosition(0, click()));

@@ -5,10 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp">
+    android:layout_margin="@dimen/default_margin">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,31 +13,19 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="72dp"
+            android:layout_width="@dimen/card_right_action_area_width"
             android:layout_height="0dp"
             android:background="@color/actionAreaBg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <!--<ImageView-->
-            <!--android:id="@+id/imgImage"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toStartOf="@+id/view"-->
-            <!--app:layout_constraintHorizontal_bias="0.0"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--app:layout_constraintVertical_bias="1.0"/>-->
-
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/card_caption_margin"
+            android:layout_marginTop="@dimen/card_caption_top_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,10 +36,8 @@
             style="@style/Base.Widget.AppCompat.ActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="@dimen/card_caption_margin"
+            android:layout_marginTop="@dimen/card_action_button_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -65,30 +48,29 @@
             android:id="@+id/chipIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginBottom="@dimen/card_chip_margin"
+            android:layout_marginStart="@dimen/card_chip_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:mcv_chipText="9 ingredients"/>
+            app:mcv_chipText="@string/sample_chip_text_ingred"/>
 
         <com.robertlevonyan.views.chip.Chip
             android:id="@+id/chipSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="@dimen/card_chip_margin"
+            android:layout_marginStart="@dimen/card_chip_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/chipIngredients"
-            app:mcv_chipText="7 steps"/>
+            app:mcv_chipText="@string/sample_chip_text_steps"/>
 
         <ImageButton
             android:id="@+id/btnOpen"
             style="@style/Base.Widget.AppCompat.ActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_margin="@dimen/card_action_button_margin"
+            android:layout_marginBottom="@dimen/card_chip_spacing"
             android:tint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/view"

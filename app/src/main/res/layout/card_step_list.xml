@@ -10,14 +10,14 @@
         style="@style/StepListCaption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8dp"
+        android:layout_margin="@dimen/default_margin"
+        android:padding="@dimen/default_padding"
         android:text="@string/sample_step_caption"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvStepList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/default_margin"
         tools:listitem="@layout/item_step_list"/>
 </LinearLayout>

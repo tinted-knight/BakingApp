@@ -19,14 +19,13 @@
 
     <TextView
         android:id="@+id/tvErrorMessage"
+        style="@style/TextNetworkError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:drawablePadding="16dp"
+        android:drawablePadding="@dimen/padding_large"
         android:drawableTop="@drawable/network_error"
-        android:lineSpacingExtra="8sp"
-        android:padding="16dp"
-        android:textAlignment="center"
+        android:padding="@dimen/padding_large"
         tools:text="@string/network_error"/>
 
 </FrameLayout>

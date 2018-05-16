@@ -13,6 +13,10 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="StepListItem" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:padding">2dp</item>
+    </style>
+
     <style name="StepListDescription">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
@@ -24,7 +28,7 @@
     <style name="CardActionImageButton" parent="@style/Base.Widget.AppCompat.ActionButton">
     </style>
 
-    <style name="WidgetIngredientItem">
+    <style name="WidgetIngredientItem" parent="Base.TextAppearance.AppCompat.Small">
         <item name="android:textColor">#000000</item>
         <item name="android:textSize">12sp</item>
     </style>
@@ -34,5 +38,12 @@
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
+    <style name="NavigationButtons" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+    </style>
+
+    <style name="TextNetworkError" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textAlignment">center</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
 
 </resources>

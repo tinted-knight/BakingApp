@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/tvName"
             style="@style/StepListCaption"
-            android:padding="8dp"
+            android:padding="@dimen/default_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_recipe_name"/>

@@ -16,6 +16,8 @@
     <string name="label_ingredients">Ingredients</string>
     <string name="label_stets">Steps</string>
     <string name="label_loading">Loading…</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
     <!--Error messages-->
     <string name="common_error">Common error</string>
@@ -23,15 +25,17 @@
 
     <!--Sample data-->
     <string name="sample_recipe_name">Recipe name</string>
-    <string name="sample_widget_no_data">Mark the recipe you want to display useful info in widget</string>
+    <string name="sample_widget_no_data">Mark the recipe you want to display info in widget</string>
     <string name="sample_step_short_desc">Short description</string>
     <string name="sample_quantity">13 CUPS</string>
     <string name="sample_step_caption">Starting prep</string>
     <string name="sample_step_description"><![CDATA[2. Whisk the graham cracker crumbs, 50 grams (&#188; cup) of sugar, and &#189; teaspoon of salt together in a medium bowl. Pour the melted butter and 1 teaspoon of vanilla into the dry ingredients and stir together until evenly mixed.]]></string>
-    <string name="sample_previous">Previous</string>
     <string name="sample_step_counter">2 of 10</string>
-    <string name="sample_next">Next</string>
     <string name="sample_tvname">tvName</string>
     <string name="sample_ingredient">sugar</string>
+    <string name="ingredient_list_caption">Ingredient list:</string>
+    <string name="sample_chip_text_ingred">9 ingredients</string>
+    <string name="sample_chip_text_steps">7 steps</string>
+    <string name="one">1</string>
 
 </resources>

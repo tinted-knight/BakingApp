@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tvQuantity"
-        android:padding="8dp"
+        android:padding="@dimen/default_padding"
         android:text="@string/sample_ingredient"/>
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:padding="8dp"
+        android:padding="@dimen/default_padding"
         android:text="@string/sample_quantity"
         android:textAlignment="textEnd" />
 </RelativeLayout>
