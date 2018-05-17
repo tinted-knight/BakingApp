@@ -45,7 +45,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnOpen"
             app:srcCompat="@drawable/ic_bookmark_border_black_24dp"/>
 
-        <com.robertlevonyan.views.chip.Chip
+        <TextView
             android:id="@+id/chipIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,9 +53,10 @@
             android:layout_marginStart="@dimen/card_chip_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:mcv_chipText="@string/sample_chip_text_ingred"/>
+            android:background="@drawable/chip"
+            tools:text="@string/sample_chip_text_ingred"/>
 
-        <com.robertlevonyan.views.chip.Chip
+        <TextView
             android:id="@+id/chipSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +64,8 @@
             android:layout_marginStart="@dimen/card_chip_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/chipIngredients"
-            app:mcv_chipText="@string/sample_chip_text_steps"/>
+            android:background="@drawable/chip"
+            tools:text="@string/sample_chip_text_steps"/>
 
         <ImageButton
             android:id="@+id/btnOpen"

@@ -1,10 +1,13 @@
 package com.and.tim.bakingapp.repo;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
 import com.and.tim.bakingapp.json_model.Recipe;
@@ -35,7 +38,9 @@ public class RecipeListRepo {
 
     private static RecipeListRepo instance = null;
 
-    private MutableLiveData<List<RecipeEntity>> data;
+    private MediatorLiveData<List<RecipeEntity>> data;
+    private MutableLiveData<List<RecipeEntity>> networkData;
+    private LiveData<List<RecipeEntity>> dbData;
     private MutableLiveData<Pair<Boolean, String>> loadingStatus;
 
     private SharedPreferences sp;
@@ -53,11 +58,33 @@ public class RecipeListRepo {
 
     private RecipeListRepo(Context context) {
         api = RecipeListController.getApi();
-        data = new MutableLiveData<>();
-        loadingStatus = new MutableLiveData<>();
         db = AppDatabase.getInstance(context);
         dao = db.recipeDao();
+
+        networkData = new MutableLiveData<>();
+        dbData = dao.getRecipeList();
+        observerDataSources();
+
+        loadingStatus = new MutableLiveData<>();
         sp = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    private void observerDataSources() {
+        data = new MediatorLiveData<>();
+        data.addSource(networkData, new Observer<List<RecipeEntity>>() {
+            @Override public void onChanged(@Nullable List<RecipeEntity> recipes) {
+                if (recipes != null) {
+                    data.setValue(recipes);
+                    data.removeSource(networkData);
+                }
+            }
+        });
+        data.addSource(dbData, new Observer<List<RecipeEntity>>() {
+            @Override public void onChanged(@Nullable List<RecipeEntity> recipes) {
+                if (recipes != null)
+                    data.setValue(recipes);
+            }
+        });
     }
 
     public LiveData<List<RecipeEntity>> getRecipeList() {
@@ -71,7 +98,7 @@ public class RecipeListRepo {
                         RecipeEntity re = new RecipeEntity(r, false);
                         result.add(re);
                     }
-                    data.setValue(result);
+                    networkData.setValue(result);
                     loadingStatus.setValue(new Pair<>(true, ""));
                     fillLocalDatabase();
                     sp.edit().putBoolean("first_start", false).apply();
@@ -83,7 +110,8 @@ public class RecipeListRepo {
             });
             return data;
         } else {
-            return dao.getRecipeList();
+            loadingStatus.setValue(new Pair<>(true, ""));
+            return dbData;
         }
     }
 

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.and.tim.bakingapp.R;
 import com.and.tim.bakingapp.repo.dao.entities.RecipeEntity;
-import com.robertlevonyan.views.chip.Chip;
 
 import java.util.List;
 
@@ -61,8 +60,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     class RecipeListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvName) TextView tvName;
-        @BindView(R.id.chipIngredients) Chip chipIngredients;
-        @BindView(R.id.chipSteps) Chip chipSteps;
+        @BindView(R.id.chipIngredients) TextView chipIngredients;
+        @BindView(R.id.chipSteps) TextView chipSteps;
         @BindView(R.id.btnPin) ImageButton btnPin;
         @BindView(R.id.btnOpen) ImageButton btnOpen;
 
@@ -99,8 +98,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
             String textIngredients = String.valueOf(recipe.ingredientsCount) + " " + labelIngredients;
             String textSteps = String.valueOf(recipe.stepCount) + " " + labelSteps;
-            chipIngredients.setChipText(textIngredients);
-            chipSteps.setChipText(textSteps);
+            chipIngredients.setText(textIngredients);
+            chipSteps.setText(textSteps);
 
             if (recipe.pinned) {
                 btnPin.setImageDrawable(pinnedDrawable);

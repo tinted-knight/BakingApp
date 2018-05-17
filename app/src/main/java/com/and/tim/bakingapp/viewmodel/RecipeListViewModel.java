@@ -38,18 +38,21 @@ public class RecipeListViewModel extends AndroidViewModel {
 
     private void observeIsLoading() {
         isLoading.setValue(new Pair<>(LoadingState.LOADING, ""));
-        isLoading.addSource(data, new Observer<List<RecipeEntity>>() {
-            @Override public void onChanged(@Nullable List<RecipeEntity> entities) {
-                if (entities != null) {
-                    isLoading.setValue(new Pair<>(LoadingState.DONE, ""));
-                    isLoading.removeSource(data);
-                }
-            }
-        });
+//        isLoading.addSource(data, new Observer<List<RecipeEntity>>() {
+//            @Override public void onChanged(@Nullable List<RecipeEntity> entities) {
+//                if (entities != null) {
+//                    isLoading.setValue(new Pair<>(LoadingState.DONE, ""));
+//                    isLoading.removeSource(data);
+//                }
+//            }
+//        });
         isLoading.addSource(repo.getLoadingStatus(), new Observer<Pair<Boolean, String>>() {
             @Override public void onChanged(@Nullable Pair<Boolean, String> status) {
-                if (status != null && status.first != null && !status.first) {
-                    isLoading.setValue(new Pair<>(LoadingState.ERROR, status.second));
+                if (status != null && status.first != null) {
+                    if (!status.first)
+                        isLoading.setValue(new Pair<>(LoadingState.ERROR, status.second));
+                    else
+                        isLoading.setValue(new Pair<>(LoadingState.DONE, ""));
                 }
             }
         });

@@ -29,7 +29,6 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +63,6 @@ public class StepInstructionsFragment extends Fragment {
     }
 
     @Override public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
         Icepick.saveInstanceState(this, outState);
     }
 
@@ -73,7 +71,7 @@ public class StepInstructionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             Icepick.restoreInstanceState(this, savedInstanceState);
-        } else if (getArguments() != null) {
+        } else {
             playbackPosition = 0;
             currentWindow = 0;
             playWhenReady = true;
@@ -231,26 +229,28 @@ public class StepInstructionsFragment extends Fragment {
 
     @Override public void onStart() {
         super.onStart();
-        initExoPlayer();
+        if (player == null) {
+            initExoPlayer();
+        }
     }
 
     @Override public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 && player == null) {
+        if (player == null) {
             initExoPlayer();
         }
     }
 
     @Override public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
+        if (player != null) {
             releaseExoPlayer();
         }
     }
 
     @Override public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (player != null) {
             releaseExoPlayer();
         }
     }

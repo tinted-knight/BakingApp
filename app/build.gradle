@@ -53,8 +53,6 @@ dependencies {
     //Exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
     implementation 'com.android.support:cardview-v7:27.1.1'
-    //Chip
-    implementation 'com.robertlevonyan.view:MaterialChipView:1.2.1'
     //Icepick
     implementation 'frankiesardo:icepick:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
