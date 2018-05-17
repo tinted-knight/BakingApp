@@ -9,7 +9,6 @@ Recipe list comes from [here](http://go.udacity.com/android-baking-app-json)
 - ViewModel, LiveData and Room from [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/)
 - [ExoPlayer](https://google.github.io/ExoPlayer/)
 - [Stetho](https://github.com/facebook/stetho)
-- [Chip view](https://github.com/robertlevonyan/materialChipView)
 - [Icepick](https://github.com/frankiesardo/icepick)
 
 ### Used icons
